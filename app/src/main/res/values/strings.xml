@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SeriesGuide</string>
+    <string name="app_like">喜欢</string>
+    <string name="app_discover">发现</string>
+    <string name="app_search">搜索</string>
+
 </resources>
