@@ -1,2 +1,2 @@
 # SeriesGuide
-a SeriesGuide
+a 追剧助手
