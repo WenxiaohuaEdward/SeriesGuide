@@ -12,13 +12,13 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    <android.support.v4.view.ViewPager
+    <wenxiaohua.seriesguide.view.views.NoScrollViewPager
         android:id="@+id/main_viewpager"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v4.view.ViewPager>
+    </wenxiaohua.seriesguide.view.views.NoScrollViewPager>
     <RadioGroup
         android:id="@+id/main_radiogroup"
         android:orientation="horizontal"
@@ -26,6 +26,7 @@
         android:layout_height="?attr/actionBarSize"
         android:weightSum="3">
         <RadioButton
+            android:id="@+id/main_like_radiobutton"
             android:text="@string/app_like"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -35,6 +36,7 @@
             android:button="@null"
             android:layout_weight="1"/>
         <RadioButton
+            android:id="@+id/main_discover_radiobutton"
             android:text="@string/app_discover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,6 +46,7 @@
             android:button="@null"
             android:layout_weight="1"/>
         <RadioButton
+            android:id="@+id/main_search_radiobutton"
             android:text="@string/app_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

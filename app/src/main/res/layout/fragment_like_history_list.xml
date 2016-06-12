@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <wenxiaohua.seriesguide.view.views.XListView
+        android:id="@+id/fragment_like_history_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></wenxiaohua.seriesguide.view.views.XListView>
+</LinearLayout>

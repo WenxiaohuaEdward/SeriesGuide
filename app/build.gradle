@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "wenxiaohua.seriesguide"
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -24,7 +24,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:7.0.0'
     compile 'com.android.support:design:22.2.0'
-
 
     compile files('libs/SocialSDK_QQZone_3.jar')
     compile files('libs/SocialSDK_Sina.jar')
