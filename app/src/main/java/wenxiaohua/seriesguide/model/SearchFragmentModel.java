@@ -47,7 +47,7 @@ public class SearchFragmentModel implements ISearchFragmentModel{
     public class RequestInterceptor implements Interceptor {
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
-            Request request = chain.request().newBuilder().addHeader("Accept-Encoding", "gzip, deflate").build();
+             Request request = chain.request().newBuilder().addHeader("Accept-Encoding", "gzip, deflate").build();
             return chain.proceed(request);
         }
     }
