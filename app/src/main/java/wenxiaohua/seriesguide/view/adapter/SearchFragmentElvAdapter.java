@@ -17,8 +17,14 @@ import wenxiaohua.seriesguide.bean.SearchFragmentElvBean;
 public class SearchFragmentElvAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private  ArrayList<SearchFragmentElvBean> resultList = new ArrayList<>();
-    private ArrayList<String> groupList = new ArrayList<>();
-    private  ArrayList<String> childList = new ArrayList<>();
+
+    public ArrayList<SearchFragmentElvBean> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(ArrayList<SearchFragmentElvBean> resultList) {
+        this.resultList = resultList;
+    }
 
     public SearchFragmentElvAdapter(Context context, ArrayList<SearchFragmentElvBean> resultList) {
         this.resultList =resultList ;
@@ -63,7 +69,6 @@ public class SearchFragmentElvAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
         convertView = View.inflate(context,R.layout.item_search_list_group,null);
         TextView groupTextView = (TextView) convertView.findViewById(R.id.item_search_list_group_tv);
         groupTextView.setText(getGroup(groupPosition));
@@ -71,10 +76,10 @@ public class SearchFragmentElvAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)  {
         convertView = View.inflate(context,R.layout.item_search_list_child,null);
-        TextView groupTextView = (TextView) convertView.findViewById(R.id.item_search_list_child_tv);
-        groupTextView.setText(getGroup(groupPosition));
+        TextView childTextView = (TextView) convertView.findViewById(R.id.item_search_list_child_tv);
+        childTextView.setText(getChild(groupPosition,childPosition).toString());
         return convertView;
     }
 

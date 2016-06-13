@@ -23,8 +23,8 @@ public abstract class BaseFragment<T extends BasePresenter<IBaseView>> extends F
 
     public View view;
     public Context context;
-    private BasePresenter mPresenter;
-    private View mRootView;
+    public BasePresenter mPresenter;
+    public View mRootView;
 
 
     @Override
