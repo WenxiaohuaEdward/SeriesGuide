@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import wenxiaohua.seriesguide.R;
-import wenxiaohua.seriesguide.bean.SearchFragmentElvBean;
+import wenxiaohua.seriesguide.bean.IndexBean;
 import wenxiaohua.seriesguide.bean.SearchFragmentHotWord;
 import wenxiaohua.seriesguide.impl.ISearchFragmentView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
@@ -27,7 +27,7 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
     SearchEditText fragment_search_input_edittext;
     @Bind(R.id.fragment_search_elv)
     ExpandableListView fragment_search_elv;
-    private ArrayList<SearchFragmentElvBean> resultList = new ArrayList<>();
+    private ArrayList<IndexBean> resultList = new ArrayList<>();
 
     private SearchFragmentHotWord.DataBean hotWordData = new SearchFragmentHotWord.DataBean();
     SearchFragmentElvAdapter searchFragmentElvAdapter;
@@ -65,7 +65,7 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
     @Override
     public void getHotWordWithView(SearchFragmentHotWord.DataBean hotWordData) {
         this.hotWordData = hotWordData;
-        SearchFragmentElvBean r = new SearchFragmentElvBean();
+        IndexBean r = new IndexBean();
         r.key = "热门搜索";
         if (hotWordData!=null&&hotWordData.getWordList()!=null&&!hotWordData.getWordList().isEmpty()){
             r.values =hotWordData.getWordList();

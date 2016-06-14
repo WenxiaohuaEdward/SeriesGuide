@@ -2,6 +2,7 @@ package wenxiaohua.seriesguide.inter;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
+import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo;
 import wenxiaohua.seriesguide.bean.SearchFragmentHotWord;
 
 /**
@@ -11,4 +12,6 @@ public interface ApiService {
 
     @POST("/v2/video/hotWord")
     Call<SearchFragmentHotWord> getHotWordWithApi();
+    @POST("/v2/video/indexInfo")
+    Call<DiscoverFragmentInfo> getDiscoverDataWithApi();
 }

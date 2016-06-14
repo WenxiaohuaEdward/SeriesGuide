@@ -71,7 +71,7 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
         addTextChangedListener(this);
     }
 
-
+    int drawableWidth;
     @Override
     protected void onDraw(Canvas canvas) {
         if (isIconLeft) { // 如果是默认样式，直接绘制
@@ -81,11 +81,17 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
             this.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableDel, null);
             super.onDraw(canvas);
         } else { // 如果不是默认样式，需要将图标绘制在中间
-            if (drawables == null) drawables = getCompoundDrawables();
-            if (drawableLeft == null) drawableLeft = drawables[0];
+            if (drawables == null) {
+                drawables = getCompoundDrawables();
+            }
+            if (drawableLeft == null) {
+                drawableLeft = drawables[0];
+            }else{
+                 drawableWidth = drawableLeft.getIntrinsicWidth();
+
+            }
             float textWidth = getPaint().measureText(getHint().toString());
             int drawablePadding = getCompoundDrawablePadding();
-            int drawableWidth = drawableLeft.getIntrinsicWidth();
             float bodyWidth = textWidth + drawableWidth + drawablePadding;
             canvas.translate((getWidth() - bodyWidth - getPaddingLeft() - getPaddingRight()) / 2, 0);
             super.onDraw(canvas);
