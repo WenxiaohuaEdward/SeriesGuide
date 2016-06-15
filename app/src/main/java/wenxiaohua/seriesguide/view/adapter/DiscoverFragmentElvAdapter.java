@@ -1,6 +1,7 @@
 package wenxiaohua.seriesguide.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo.DataBean.IndexBean;
+import wenxiaohua.seriesguide.view.activity.VideoDetailActivity;
+import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
 import wenxiaohua.seriesguide.view.views.NestRecyclerViewLayoutManager;
 
 /**
@@ -73,14 +76,18 @@ public class DiscoverFragmentElvAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        convertView = View.inflate(context,R.layout.item_search_list_group,null);
-        TextView groupTextView = (TextView) convertView.findViewById(R.id.item_search_list_group_tv);
+        if (resultList.get(groupPosition).getSeasonList().isEmpty()){
+            return new View(context);
+        }
+        convertView = View.inflate(context,R.layout.item_discover_list_group,null);
+        TextView groupTextView = (TextView) convertView.findViewById(R.id.item_discover_list_group_tv);
+        TextView groupAllTextView = (TextView) convertView.findViewById(R.id.item_discover_list_group_all_tv);
         groupTextView.setText(getGroup(groupPosition));
         return convertView;
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)  {
+    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)  {
         convertView = View.inflate(context,R.layout.item_discover_list_child,null);
         RecyclerView fragment_discover_rv = (RecyclerView) convertView.findViewById(R.id.fragment_discover_rv);
         int spanCount = 1; // 只显示一行
@@ -88,6 +95,15 @@ public class DiscoverFragmentElvAdapter extends BaseExpandableListAdapter {
         fragment_discover_rv.setLayoutManager(mStaggeredGridLayoutManager);
         discoverFragmentAdapter  = new DiscoverFragmentAdapter(context);
         discoverFragmentAdapter.setDiscoverFragmentInfoList(resultList.get(groupPosition).getSeasonList());
+        discoverFragmentAdapter.setOnItemClickListener(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int ItemPostion) {
+                Intent videoDetail = new Intent(context,VideoDetailActivity.class);
+                videoDetail.putExtra("seasonId",  resultList.get(groupPosition).getSeasonList().get(ItemPostion).getId());
+                videoDetail.putExtra("seasonTitle", resultList.get(groupPosition).getSeasonList().get(ItemPostion).getTitle());
+                context.startActivity(videoDetail);
+            }
+        });
         fragment_discover_rv.setAdapter(discoverFragmentAdapter);
 
         return convertView;

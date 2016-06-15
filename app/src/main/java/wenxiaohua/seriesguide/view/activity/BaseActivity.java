@@ -3,7 +3,6 @@ package wenxiaohua.seriesguide.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
 
     private long mUIThreadId; //UI线程ID
     View mRootView ;
-    private Toolbar mToolbar;
     protected BasePresenter mPresenter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,8 +36,6 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
         getIntentValue();
         mRootView  = createView(null, null, savedInstanceState);
         setContentView(mRootView);
-        mToolbar = (Toolbar) findViewById(getToolBarId());
-        setSupportActionBar(mToolbar);
         setActionBar();
         bindView(savedInstanceState);
         initView();
@@ -62,10 +58,6 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
 
     public void getIntentValue() {
 
-    }
-    public abstract int getToolBarId();
-    public Toolbar getToolbar() {
-        return mToolbar;
     }
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

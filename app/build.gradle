@@ -32,8 +32,10 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.0.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.facebook.rebound:rebound:0.3.8'
+    compile 'com.facebook.fresco:fresco:0.8.1+'
 
-
+    compile files('libs/cyberplayer-sdk.jar')
     compile files('libs/SocialSDK_QQZone_3.jar')
     compile files('libs/SocialSDK_Sina.jar')
     compile files('libs/SocialSDK_tencentWB_1.jar')

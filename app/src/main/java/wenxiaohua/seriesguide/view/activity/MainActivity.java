@@ -39,10 +39,7 @@ public class MainActivity extends BaseActivity implements IMainView, View.OnClic
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
 
-    @Override
-    public int getToolBarId() {
-        return R.id.main_toolbar;
-    }
+
 
     @Override
     protected void initView() {
@@ -71,7 +68,8 @@ public class MainActivity extends BaseActivity implements IMainView, View.OnClic
 
             }
         });
-        main_viewpager.setCurrentItem(1);
+        main_toolbar.setTitle("发现");
+        main_viewpager.setCurrentItem(1,true);
         main_viewpager.setOffscreenPageLimit(2);
         main_like_radiobutton.setOnClickListener(this);
         main_discover_radiobutton.setOnClickListener(this);
