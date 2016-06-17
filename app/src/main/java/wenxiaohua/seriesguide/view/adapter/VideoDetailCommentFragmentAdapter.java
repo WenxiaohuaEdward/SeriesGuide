@@ -67,6 +67,8 @@ public class VideoDetailCommentFragmentAdapter extends android.widget.BaseAdapte
         ResultsBean resultsBean  = getmVideoDetailCommentInfoList().get(position);
         if(resultsBean!=null&&resultsBean.getAuthor().getHeadImgUrl()!=null&&!"".equals(resultsBean.getAuthor().getHeadImgUrl())) {
             PicassoUtils.getPicassoInstance(context, resultsBean.getAuthor().getHeadImgUrl(), holder.video_detail_comment_cover_iv);
+        }else{
+            holder.video_detail_comment_cover_iv.setImageResource(R.mipmap.ic_launcher);
         }
         holder.video_detail_comment_content_tv.setText(resultsBean.getContent());
         holder.video_detail_comment_time_tv.setText(resultsBean.getAuthor().getCreateTimeStr());

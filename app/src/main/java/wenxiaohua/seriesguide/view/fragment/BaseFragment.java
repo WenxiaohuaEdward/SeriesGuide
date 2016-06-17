@@ -95,4 +95,6 @@ public abstract class BaseFragment<T extends BasePresenter<IBaseView>> extends F
     protected abstract void initView(View view, Bundle savedInstanceState);
 
     protected abstract void initData(Bundle savedInstanceState);
+
+
 }

@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import wenxiaohua.seriesguide.R;
+import wenxiaohua.seriesguide.bean.VideoDetailInfo;
+import wenxiaohua.seriesguide.impl.IVideoDetailView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
+import wenxiaohua.seriesguide.presenter.VideoDetailPresenter;
 import wenxiaohua.seriesguide.view.adapter.FragmentAdapter;
 import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailCommentFragment;
 import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailReviewFragment;
@@ -18,7 +21,7 @@ import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailReviewFragmen
 /**
  * Created by hexun on 2016/6/15.
  */
-public class VideoDetailActivity extends BaseActivity{
+public class VideoDetailActivity extends BaseActivity implements IVideoDetailView {
 
     @Bind(R.id.video_detail_toolbar)
     Toolbar video_detail_toolbar;
@@ -29,7 +32,8 @@ public class VideoDetailActivity extends BaseActivity{
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
     private String seasonId;
-
+    private VideoDetailInfo.DataBean data;
+    VideoDetailReviewFragment videoDetailReviewFragment;
     @Override
     protected void initView() {
         video_detail_toolbar.setTitle(getIntent().getStringExtra("seasonTitle"));
@@ -38,16 +42,18 @@ public class VideoDetailActivity extends BaseActivity{
 
     @Override
     protected void initData() {
-        fragmentList.add(new VideoDetailReviewFragment(seasonId));
+        videoDetailReviewFragment= new VideoDetailReviewFragment();
+        Bundle bundleReview =  new Bundle();
+        bundleReview.putString("seasonId", seasonId);
+        videoDetailReviewFragment.setArguments(bundleReview);
+        fragmentList.add(videoDetailReviewFragment);
         VideoDetailCommentFragment videoDetailCommentFragment = new VideoDetailCommentFragment();
-        Bundle bundle =  new Bundle();
-         bundle.putString("seasonId", seasonId);
-        videoDetailCommentFragment.setArguments(bundle);
+        Bundle bundleComment =  new Bundle();
+        bundleComment.putString("seasonId", seasonId);
+        videoDetailCommentFragment.setArguments(bundleComment);
         fragmentList.add(videoDetailCommentFragment);
         titleList.add("简介");
         titleList.add("评论");
-        //设置TabLayout的模式
-        video_detail_tabs.setTabMode(TabLayout.MODE_FIXED);
         //为TabLayout添加tab名称
         video_detail_tabs.addTab(video_detail_tabs.newTab().setText(titleList.get(0)));
         video_detail_tabs.addTab(video_detail_tabs.newTab().setText(titleList.get(1)));
@@ -58,12 +64,13 @@ public class VideoDetailActivity extends BaseActivity{
         video_detail_vp.setCurrentItem(0, true);
         video_detail_vp.setOffscreenPageLimit(2);
         video_detail_tabs.setupWithViewPager(video_detail_vp);//将TabLayout和ViewPager关联起来
-
+        VideoDetailPresenter videoDetailPresenter = (VideoDetailPresenter)mPresenter;
+        videoDetailPresenter.getVideoDetail(seasonId);
     }
 
     @Override
     public BasePresenter getPresenter() {
-        return null;
+        return new VideoDetailPresenter();
     }
 
     @Override
@@ -74,5 +81,11 @@ public class VideoDetailActivity extends BaseActivity{
     @Override
     public int getContentLayout() {
         return R.layout.activity_video_detail;
+    }
+
+    @Override
+    public void getVideoDetailWithView(VideoDetailInfo.DataBean data) {
+        this.data = data;
+        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(),data.getSeasonDetail().getTitle());
     }
 }
