@@ -39,6 +39,11 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
         }
         return position;
     }
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+
+    }
 
     public int findPosition(long id) {
 

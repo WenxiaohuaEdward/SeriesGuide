@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import wenxiaohua.seriesguide.impl.IBaseView;
 import wenxiaohua.seriesguide.inter.IBase;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
-import wenxiaohua.seriesguide.utils.AppManager;
+import wenxiaohua.seriesguide.utils.AppManagerUtils;
 import wenxiaohua.seriesguide.utils.ContextUtils;
 
 /**
@@ -28,7 +28,7 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUIThreadId = android.os.Process.myTid();
-        AppManager.getAppManager().addActivity(this);
+        AppManagerUtils.getAppManager().addActivity(this);
         mPresenter = getPresenter();
         if (mPresenter != null && this instanceof IBaseView) {
             mPresenter.attach((IBaseView) this);
@@ -78,7 +78,7 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppManager.getAppManager().finishActivity(this);
+        AppManagerUtils.getAppManager().finishActivity(this);
         if (mPresenter != null && this instanceof IBaseView) {
             mPresenter.detachView();
             mPresenter = null;

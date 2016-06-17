@@ -11,6 +11,13 @@ import wenxiaohua.seriesguide.view.fragment.BaseFragment;
  * Created by hexun on 2016/6/15.
  */
 public class VideoDetailReviewFragment extends BaseFragment {
+    private  String seasonId ="";
+
+    public VideoDetailReviewFragment(){
+    }
+    public VideoDetailReviewFragment(String seasonId){
+        this.seasonId =seasonId;
+    }
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
 

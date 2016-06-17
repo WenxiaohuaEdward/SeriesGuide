@@ -17,17 +17,17 @@ import java.util.Stack;
  *         应用程序Activity管理类：用于Activity管理和应用程序退出
  * @date 2014-8-6 下午6:04:25
  */
-public class AppManager {
+public class AppManagerUtils {
 
 	private static Stack<Activity> activityStack;
-	private static AppManager instance;
+	private static AppManagerUtils instance;
 
-	private AppManager() {
+	private AppManagerUtils() {
 	}
 
-	public static AppManager getAppManager() {
+	public static AppManagerUtils getAppManager() {
 		if (instance == null) {
-			instance = new AppManager();
+			instance = new AppManagerUtils();
 		}
 		return instance;
 	}

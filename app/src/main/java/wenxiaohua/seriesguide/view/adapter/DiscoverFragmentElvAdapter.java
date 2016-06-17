@@ -99,7 +99,7 @@ public class DiscoverFragmentElvAdapter extends BaseExpandableListAdapter {
             @Override
             public void onItemClick(View view, int ItemPostion) {
                 Intent videoDetail = new Intent(context,VideoDetailActivity.class);
-                videoDetail.putExtra("seasonId",  resultList.get(groupPosition).getSeasonList().get(ItemPostion).getId());
+                videoDetail.putExtra("seasonId",  resultList.get(groupPosition).getSeasonList().get(ItemPostion).getId()+"");
                 videoDetail.putExtra("seasonTitle", resultList.get(groupPosition).getSeasonList().get(ItemPostion).getTitle());
                 context.startActivity(videoDetail);
             }

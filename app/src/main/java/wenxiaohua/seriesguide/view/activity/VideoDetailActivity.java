@@ -28,16 +28,22 @@ public class VideoDetailActivity extends BaseActivity{
     TabLayout video_detail_tabs;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
+    private String seasonId;
+
     @Override
     protected void initView() {
         video_detail_toolbar.setTitle(getIntent().getStringExtra("seasonTitle"));
-
+        seasonId = getIntent().getStringExtra("seasonId");
     }
 
     @Override
     protected void initData() {
-        fragmentList.add(new VideoDetailReviewFragment());
-        fragmentList.add(new VideoDetailCommentFragment());
+        fragmentList.add(new VideoDetailReviewFragment(seasonId));
+        VideoDetailCommentFragment videoDetailCommentFragment = new VideoDetailCommentFragment();
+        Bundle bundle =  new Bundle();
+         bundle.putString("seasonId", seasonId);
+        videoDetailCommentFragment.setArguments(bundle);
+        fragmentList.add(videoDetailCommentFragment);
         titleList.add("简介");
         titleList.add("评论");
         //设置TabLayout的模式
@@ -50,7 +56,7 @@ public class VideoDetailActivity extends BaseActivity{
 
         video_detail_vp.setAdapter(fragmentAdapter);
         video_detail_vp.setCurrentItem(0, true);
-        video_detail_vp.setOffscreenPageLimit(1);
+        video_detail_vp.setOffscreenPageLimit(2);
         video_detail_tabs.setupWithViewPager(video_detail_vp);//将TabLayout和ViewPager关联起来
 
     }

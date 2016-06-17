@@ -75,6 +75,7 @@ public abstract class BaseFragment<T extends BasePresenter<IBaseView>> extends F
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initView(view, savedInstanceState);
+        initData(savedInstanceState);
     }
     @Override
     public void onDestroy() {
@@ -87,7 +88,7 @@ public abstract class BaseFragment<T extends BasePresenter<IBaseView>> extends F
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        initData(savedInstanceState);
+
         super.onActivityCreated(savedInstanceState);
     }
 

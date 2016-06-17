@@ -9,8 +9,6 @@ import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +19,7 @@ import wenxiaohua.seriesguide.impl.IDiscoverFragmentView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
 import wenxiaohua.seriesguide.presenter.DiscoverFragmentPresenter;
 import wenxiaohua.seriesguide.utils.ContextUtils;
+import wenxiaohua.seriesguide.utils.PicassoUtils;
 import wenxiaohua.seriesguide.view.activity.VideoTypeActivity;
 import wenxiaohua.seriesguide.view.adapter.BannerAdapter;
 import wenxiaohua.seriesguide.view.adapter.DiscoverFragmentElvAdapter;
@@ -43,12 +42,10 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
     private DiscoverFragmentInfo.DataBean discoverData;
     DiscoverFragmentElvAdapter discoverFragmentElvAdapter;
     private List<ImageView> imageViewContainer = new ArrayList<>();
-    private Picasso picasso;
     BannerAdapter bannerAdapter;
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        picasso = Picasso.with(context);
         fragment_discover_banner_vp = new ViewPager(getActivity());
         fragment_discover_banner_vp.setLayoutParams(new AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT, ContextUtils.dip2px(getActivity(),180)));
@@ -69,6 +66,8 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
 
                         Intent videoTypeIntent = new Intent(getActivity(), VideoTypeActivity.class);
                         videoTypeIntent.putExtra("videoTypeTitle",discoverData.getIndex().get(groupPosition).getTitle());
+                        videoTypeIntent.putExtra("videoTypeId",discoverData.getIndex().get(groupPosition).getId());
+
                         getActivity().startActivity(videoTypeIntent);
                         return true;
                     }
@@ -103,10 +102,10 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
         this.discoverData = discoverData;
         discoverFragmentElvAdapter.setResultList(discoverData.getIndex());
         discoverFragmentElvAdapter.notifyDataSetChanged();
-        for (DiscoverFragmentInfo.DataBean.AlbumBean albumbean:discoverData.getAlbum()){
+        for (DiscoverFragmentInfo.DataBean.AlbumBean albumbean:discoverData.getAlbum()) {
 
             ImageView imageView = new ImageView(getActivity());
-            picasso.load(albumbean.getCoverUrl()).into(imageView);
+            PicassoUtils.getPicassoInstance(getActivity(),albumbean.getCoverUrl(),imageView);
             imageViewContainer.add(imageView);
         }
         bannerAdapter.notifyDataSetChanged();
@@ -126,7 +125,9 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
                 while (!isStop) {
                     //每个两秒钟发一条消息到主线程，更新viewpager界面
                     SystemClock.sleep(scrollTimeOffset);
-
+                    if ( getActivity()==null){
+                        return;
+                    }
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             int newindex = fragment_discover_banner_vp.getCurrentItem() + 1;

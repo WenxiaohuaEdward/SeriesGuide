@@ -35,7 +35,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@color/trans"
         app:tabIndicatorColor="@color/colorPrimary"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         app:tabSelectedTextColor="@color/colorPrimaryDark"
         app:tabTextColor="@color/black" />
 
