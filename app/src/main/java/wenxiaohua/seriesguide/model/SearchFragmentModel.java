@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import wenxiaohua.seriesguide.bean.SearchFragmentHotWord;
+import wenxiaohua.seriesguide.bean.SecrchInfo;
 import wenxiaohua.seriesguide.inter.ApiService;
 import wenxiaohua.seriesguide.model.impl.ISearchFragmentModel;
 import wenxiaohua.seriesguide.utils.RetrofitUtils;
@@ -22,6 +23,13 @@ public class SearchFragmentModel implements ISearchFragmentModel{
         call.enqueue(callback);
     }
 
+    @Override
+    public void getSearchDataWithModel(String page, String rows, String title, Callback<SecrchInfo> callback) {
+        Retrofit  retrofit= RetrofitUtils.getRetrofitInstance("/video/search");
+        ApiService service = retrofit.create(ApiService.class);
+        Call<SecrchInfo> call = service.getSearchDataWithApi(page,rows,title);
+        call.enqueue(callback);
+    }
 
 
 }

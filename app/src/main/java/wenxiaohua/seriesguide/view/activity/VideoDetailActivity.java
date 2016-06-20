@@ -1,10 +1,13 @@
 package wenxiaohua.seriesguide.view.activity;
 
-import android.os.Bundle;
+import android.os.*;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import com.baidu.cyberplayer.core.BVideoView;
 
 import java.util.ArrayList;
 
@@ -29,15 +32,44 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     ViewPager video_detail_vp;
     @Bind(R.id.video_detail_tabs)
     TabLayout video_detail_tabs;
+    @Bind(R.id.video_view)
+    BVideoView video_view;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
     private String seasonId;
     private VideoDetailInfo.DataBean data;
     VideoDetailReviewFragment videoDetailReviewFragment;
+    /**
+     * 播放状态
+     */
+    private enum PLAYER_STATUS {
+        PLAYER_IDLE, PLAYER_PREPARING, PLAYER_PREPARED,
+    }
+    private PLAYER_STATUS mPlayerStatus = PLAYER_STATUS.PLAYER_IDLE;
+    private String mVideoSource; //播放url
+    private final int EVENT_PLAY = 0;
+    private final int UI_EVENT_UPDATE_CURRPOSITION = 1;
+    private final Object SYNC_Playing = new Object();
+    /**
+     * 记录播放位置
+     */
+    private int mLastPos = 0;
+    private String TAG = "VideoDetailActivity";
+    private HandlerThread mHandlerThread;
+    private EventHandler mEventHandler;
+
     @Override
     protected void initView() {
         video_detail_toolbar.setTitle(getIntent().getStringExtra("seasonTitle"));
         seasonId = getIntent().getStringExtra("seasonId");
+        /**
+         * 开启后台事件处理线程
+         */
+        mHandlerThread = new HandlerThread("event handler thread",
+                android.os.Process.THREAD_PRIORITY_BACKGROUND);
+        mHandlerThread.start();
+        mEventHandler = new EventHandler(mHandlerThread.getLooper());
+
     }
 
     @Override
@@ -87,5 +119,63 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     public void getVideoDetailWithView(VideoDetailInfo.DataBean data) {
         this.data = data;
         videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(),data.getSeasonDetail().getTitle());
+        video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
     }
+    class EventHandler extends Handler {
+        public EventHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case EVENT_PLAY:
+                    /**
+                     * 如果已经播放了，等待上一次播放结束
+                     */
+                    if (mPlayerStatus != PLAYER_STATUS.PLAYER_IDLE) {
+                        synchronized (SYNC_Playing) {
+                            try {
+                                SYNC_Playing.wait();
+                                Log.v(TAG, "wait player status to idle");
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    /**
+                     * 设置播放url
+                     */
+                    mVideoSource = (String) msg.obj ;
+                    video_view.setVideoPath(mVideoSource);
+
+                    /**
+                     * 续播，如果需要如此
+                     */
+                    if (mLastPos > 0) {
+
+                        video_view.seekTo(mLastPos);
+                        mLastPos = 0;
+                    }
+
+                    /**
+                     * 显示或者隐藏缓冲提示
+                     */
+                    video_view.showCacheInfo(true);
+
+                    /**
+                     * 开始播放
+                     */
+                    video_view.start();
+                    mPlayerStatus = PLAYER_STATUS.PLAYER_PREPARING;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
 }

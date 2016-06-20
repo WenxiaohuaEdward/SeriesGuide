@@ -20,7 +20,7 @@ import wenxiaohua.seriesguide.presenter.BasePresenter;
 import wenxiaohua.seriesguide.presenter.DiscoverFragmentPresenter;
 import wenxiaohua.seriesguide.utils.ContextUtils;
 import wenxiaohua.seriesguide.utils.PicassoUtils;
-import wenxiaohua.seriesguide.view.activity.VideoTypeActivity;
+import wenxiaohua.seriesguide.view.activity.VideoListActivity;
 import wenxiaohua.seriesguide.view.adapter.BannerAdapter;
 import wenxiaohua.seriesguide.view.adapter.DiscoverFragmentElvAdapter;
 import wenxiaohua.seriesguide.view.fragment.BaseFragment;
@@ -64,7 +64,7 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
                     public boolean onGroupClick(ExpandableListView parent,
                                                 View v, int groupPosition, long childPosition) {
 
-                        Intent videoTypeIntent = new Intent(getActivity(), VideoTypeActivity.class);
+                        Intent videoTypeIntent = new Intent(getActivity(), VideoListActivity.class);
                         videoTypeIntent.putExtra("videoTypeTitle",discoverData.getIndex().get(groupPosition).getTitle());
                         videoTypeIntent.putExtra("videoTypeId",discoverData.getIndex().get(groupPosition).getId());
 
@@ -90,6 +90,18 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
     @Override
     public void bindView(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isStop = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isStop = false;
     }
 
     @Override

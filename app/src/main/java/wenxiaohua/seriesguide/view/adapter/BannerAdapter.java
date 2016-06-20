@@ -32,18 +32,17 @@ public class BannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         if (!imageViewContainer.isEmpty()) {
             View view = imageViewContainer.get(position % imageViewContainer.size());
+                // 为每一个page添加点击事件
+                view.setOnClickListener(new View.OnClickListener() {
 
-            // 为每一个page添加点击事件
-            view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "Page 被点击了", Toast.LENGTH_SHORT).show();
+                    }
 
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "Page 被点击了", Toast.LENGTH_SHORT).show();
-                }
+                });
 
-            });
-
-            container.addView(view);
+                container.addView(view);
             return view;
         }
        return null;

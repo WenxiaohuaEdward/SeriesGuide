@@ -27,8 +27,12 @@ public class VideoDetailReviewFragment extends BaseFragment {
 
     }
     public void setReviewData(String brief, String title){
-        fragment_video_detail_review_title.setText(title);
+        if(brief!=null){
         fragment_video_detail_review_content.setText(brief);
+            }
+        if (title!=null){
+            fragment_video_detail_review_title.setText(title);
+        }
     }
     @Override
     protected void initData(Bundle savedInstanceState) {
