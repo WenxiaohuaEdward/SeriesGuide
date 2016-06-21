@@ -72,7 +72,7 @@ public class VideoListAdapter extends android.widget.BaseAdapter {
         }
 
         SeasonInfo seasonInfo  = getItem(position);
-        if(seasonInfo!=null&&"".equals(seasonInfo.getCover())) {
+        if(seasonInfo!=null&&!"".equals(seasonInfo.getCover())) {
             PicassoUtils.getPicassoInstance(context, seasonInfo.getCover(), holder.item_video_type_iv);
         }else{
             holder.item_video_type_iv.setImageResource(R.mipmap.ic_launcher);

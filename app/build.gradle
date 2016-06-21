@@ -17,6 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets{
+        main{
+            java.srcDirs = ['src/main/java' , 'src/main/java-gen']
+        }
+    }
+
 }
 
 dependencies {
@@ -34,7 +40,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.facebook.rebound:rebound:0.3.8'
     compile 'com.facebook.fresco:fresco:0.8.1+'
-
+    compile 'org.greenrobot:greendao:2.2.1'
     compile files('libs/cyberplayer-sdk.jar')
     compile files('libs/SocialSDK_QQZone_3.jar')
     compile files('libs/SocialSDK_Sina.jar')
@@ -47,4 +53,5 @@ dependencies {
     compile files('libs/weiboSDKCore_3.1.2.jar')
     compile files('libs/umeng-update-v2.6.0.1.jar')
     compile files('libs/umeng-analytics-v5.6.4.jar')
+    compile project(':greendaogenerator')
 }

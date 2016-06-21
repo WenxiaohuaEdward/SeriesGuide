@@ -74,6 +74,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
 
     @Override
     protected void initData() {
+
         videoDetailReviewFragment= new VideoDetailReviewFragment();
         Bundle bundleReview =  new Bundle();
         bundleReview.putString("seasonId", seasonId);

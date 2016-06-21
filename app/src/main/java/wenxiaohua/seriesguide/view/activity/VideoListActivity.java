@@ -35,8 +35,10 @@ public class VideoListActivity extends BaseActivity implements IVideoTypeModel {
     @Override
     protected void initData() {
         ArrayList<SeasonInfo> seasonInfoList = (ArrayList<SeasonInfo>) getIntent().getSerializableExtra("seasonListData");
-        mVideoListAdapter.setmSeasonInfoList(seasonInfoList);
-        mVideoListAdapter.notifyDataSetChanged();
+        if(seasonInfoList!=null) {
+            mVideoListAdapter.setmSeasonInfoList(seasonInfoList);
+            mVideoListAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
