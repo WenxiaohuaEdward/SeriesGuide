@@ -15,6 +15,8 @@ import java.util.List;
 import butterknife.Bind;
 import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo;
+import wenxiaohua.seriesguide.bean.SeasonInfo;
+import wenxiaohua.seriesguide.bean.SearchInfo;
 import wenxiaohua.seriesguide.impl.IDiscoverFragmentView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
 import wenxiaohua.seriesguide.presenter.DiscoverFragmentPresenter;
@@ -32,7 +34,6 @@ import wenxiaohua.seriesguide.view.fragment.BaseFragment;
 public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentView{
     @Bind(R.id.fragment_discover_elv)
     ExpandableListView fragment_discover_elv;
-//    @Bind(R.id.fragment_discover_banner_vp)
     ViewPager fragment_discover_banner_vp;
 
     /** Banner滚动线程是否销毁的标志，默认不销毁 */
@@ -43,6 +44,10 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
     DiscoverFragmentElvAdapter discoverFragmentElvAdapter;
     private List<ImageView> imageViewContainer = new ArrayList<>();
     BannerAdapter bannerAdapter;
+    private int currentItem;
+    DiscoverFragmentPresenter discoverFragmentPresenter;
+    private String page = "0";
+    private String rows = "20";
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
         fragment_discover_banner_vp.setAdapter(bannerAdapter);
         fragment_discover_banner_vp.setCurrentItem(0, true);
         fragment_discover_banner_vp.setOffscreenPageLimit(2);
+        fragment_discover_banner_vp.setOnPageChangeListener(new BannerPageChangeListener());
         fragment_discover_elv.addHeaderView(fragment_discover_banner_vp, null, true);
          discoverFragmentElvAdapter = new DiscoverFragmentElvAdapter(getActivity());
         fragment_discover_elv.setAdapter(discoverFragmentElvAdapter);
@@ -63,12 +69,8 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
                     @Override
                     public boolean onGroupClick(ExpandableListView parent,
                                                 View v, int groupPosition, long childPosition) {
+                        discoverFragmentPresenter.getSearchData(page, rows, "", "", groupPosition);
 
-                        Intent videoTypeIntent = new Intent(getActivity(), VideoListActivity.class);
-                        videoTypeIntent.putExtra("videoTypeTitle",discoverData.getIndex().get(groupPosition).getTitle());
-                        videoTypeIntent.putExtra("videoTypeId",discoverData.getIndex().get(groupPosition).getId());
-
-                        getActivity().startActivity(videoTypeIntent);
                         return true;
                     }
                 });
@@ -76,7 +78,7 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        DiscoverFragmentPresenter discoverFragmentPresenter = (DiscoverFragmentPresenter)mPresenter;
+        discoverFragmentPresenter = (DiscoverFragmentPresenter)mPresenter;
         discoverFragmentPresenter.getDiscoverData();
         startBannerScrollThread();
     }
@@ -91,7 +93,68 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
     public void bindView(Bundle savedInstanceState) {
 
     }
+/**
+ 193.
+ *
+ ViewPager的监听器
+ 194.
+ *
+ 当ViewPager中页面的状态发生改变时调用
+ 195.
+ *
+ @author caizhiming
+ 196.
+ */
+    private class BannerPageChangeListener implements ViewPager.OnPageChangeListener {
+        boolean isAutoPlay
+                = false;
+        @Override
+        public void onPageScrollStateChanged(int arg0)
+        {
+//
+          //  TODO Auto-generated method stub
+            switch (arg0)
+            {
+                case 1://
+                    //手势滑动，空闲中
+                    isAutoPlay
+                            = false;
+                    break;
+                case 2://
+                    //界面切换中
+                    isAutoPlay
+                            = true;
+                    break;
+                case 0://
+//                    滑动结束，即切换完毕或者加载完毕
+//
+//                    当前为最后一张，此时从右向左滑，则切换到第一张
+                    if (fragment_discover_banner_vp.getCurrentItem()
+                            == fragment_discover_banner_vp.getAdapter().getCount() - 1 &&
+                            !isAutoPlay) {
+                        fragment_discover_banner_vp.setCurrentItem(0);
+                    }
+//
+//                    当前为第一张，此时从左向右滑，则切换到最后一张
+                    else if (fragment_discover_banner_vp.getCurrentItem()
+                        == 0 &&
+                        !isAutoPlay) {
+                        fragment_discover_banner_vp.setCurrentItem(fragment_discover_banner_vp.getAdapter().getCount()
+                            - 1);
+                }
+                    break;
+            }
+        }
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2)
+    {
+    }
+    @Override
+    public void onPageSelected(int pos)
+    {
+    }
 
+}
     @Override
     public void onPause() {
         super.onPause();
@@ -126,6 +189,29 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
             fragment_discover_elv.expandGroup(i);
         }
     }
+
+    @Override
+    public void getSearchDataWithView(SearchInfo.DataBean dataBean,int groupPosition) {
+        ArrayList<SeasonInfo> mSeasonInfoList = new ArrayList<>();
+        for (SearchInfo.DataBean.ResultsBean searchInfo : dataBean.getResults()){
+            if (discoverData.getIndex().get(groupPosition).getTitle().equals(searchInfo)) {
+                SeasonInfo seasonInfo = new SeasonInfo();
+                seasonInfo.setTitle(searchInfo.getTitle());
+                seasonInfo.setCover(searchInfo.getCover());
+                seasonInfo.setId(searchInfo.getId());
+                seasonInfo.setBrief(searchInfo.getBrief());
+                seasonInfo.setViewCount(searchInfo.getUpInfo());
+                mSeasonInfoList.add(seasonInfo);
+            }
+        }
+        Intent videoCatListIntent = new Intent(getActivity(), VideoListActivity.class);
+        videoCatListIntent.putExtra("videoTypeTitle", discoverData.getIndex().get(groupPosition).getTitle());
+        videoCatListIntent.putExtra("videoTypeId", discoverData.getIndex().get(groupPosition).getId());
+        videoCatListIntent.putExtra("seasonListData", mSeasonInfoList);
+
+        getActivity().startActivity(videoCatListIntent);
+    }
+
     /**
      * 开启Banner滚动线程
      */
@@ -134,18 +220,21 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
 
             @Override
             public void run() {
-                while (!isStop) {
-                    //每个两秒钟发一条消息到主线程，更新viewpager界面
-                    SystemClock.sleep(scrollTimeOffset);
-                    if ( getActivity()==null){
-                        return;
-                    }
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            int newindex = fragment_discover_banner_vp.getCurrentItem() + 1;
-                            fragment_discover_banner_vp.setCurrentItem(newindex);
+                synchronized (fragment_discover_banner_vp) {
+                    while (!isStop) {
+                        //每个两秒钟发一条消息到主线程，更新viewpager界面
+                        SystemClock.sleep(scrollTimeOffset);
+                        if (getActivity() == null) {
+                            return;
                         }
-                    });
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                currentItem
+                                        = (currentItem+1)%bannerAdapter.getCount();
+                                fragment_discover_banner_vp.setCurrentItem(currentItem);
+                            }
+                        });
+                    }
                 }
             }
         }).start();

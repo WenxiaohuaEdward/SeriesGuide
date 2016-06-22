@@ -1,7 +1,7 @@
 package wenxiaohua.seriesguide.impl;
 
 import wenxiaohua.seriesguide.bean.SearchFragmentHotWord;
-import wenxiaohua.seriesguide.bean.SecrchInfo;
+import wenxiaohua.seriesguide.bean.SearchInfo;
 
 /**
  * Created by hexun on 2016/6/8.
@@ -9,5 +9,5 @@ import wenxiaohua.seriesguide.bean.SecrchInfo;
 public interface ISearchFragmentView extends IBaseView {
     void getHotWordWithView(SearchFragmentHotWord.DataBean hotWordData);
 
-    void getSearchDataWithView(SecrchInfo.DataBean data);
+    void getSearchDataWithView(SearchInfo.DataBean data);
 }

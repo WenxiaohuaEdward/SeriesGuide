@@ -17,7 +17,7 @@ import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.IndexBean;
 import wenxiaohua.seriesguide.bean.SearchFragmentHotWord;
 import wenxiaohua.seriesguide.bean.SeasonInfo;
-import wenxiaohua.seriesguide.bean.SecrchInfo;
+import wenxiaohua.seriesguide.bean.SearchInfo;
 import wenxiaohua.seriesguide.constant.SPConstants;
 import wenxiaohua.seriesguide.impl.ISearchFragmentView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
@@ -47,7 +47,7 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
     private SEARCH_STATUS mSearchStatus = SEARCH_STATUS.SEARCH_HOTWORD;
     private SearchFragmentHotWord.DataBean hotWordData = new SearchFragmentHotWord.DataBean();
     SearchFragmentElvAdapter searchFragmentElvAdapter;
-    private SecrchInfo.DataBean data;
+    private SearchInfo.DataBean data;
     SearchFragmentPresenter searchFragmentPresenter;
     private String page = "0";
     private String rows = "10";
@@ -61,13 +61,22 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
         searchFragmentElvAdapter= new SearchFragmentElvAdapter(getActivity(),resultList);
         fragment_search_elv.setAdapter(searchFragmentElvAdapter);
         fragment_search_elv.setGroupIndicator(null);
+        //设置不折叠。
+        fragment_search_elv
+                .setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                    @Override
+                    public boolean onGroupClick(ExpandableListView parent,
+                                                View v, int groupPosition, long childPosition) {
+                        return true;
+                    }
+                });
         fragment_search_elv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 ArrayList<IndexBean> list = searchFragmentElvAdapter.getResultList();
                 mSearchStatus = SEARCH_STATUS.SEARCH_HOTWORD;
                 childClickText = list.get(groupPosition).values.get(childPosition);
-                searchFragmentPresenter.getSearchData(page, rows,childClickText );
+                searchFragmentPresenter.getSearchData(page, rows,childClickText,"");
                 return true;
             }
         });
@@ -75,7 +84,7 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
         fragment_search_input_edittext.setOnKeyListener(new View.OnKeyListener() {//输入完后按键盘上的搜索键【回车键改为了搜索键】
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {//修改回车键功能
+                if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {//修改回车键功能
                 // 先隐藏键盘
                     ((InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(
@@ -84,9 +93,11 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
                                             .getWindowToken(),
                                     InputMethodManager.HIDE_NOT_ALWAYS);
                     //显示最近搜索内容
-                    clickTextListFromSP.add(fragment_search_input_edittext.getText().toString());
                     if(resultList.get(1)!=null) {
-                        resultList.get(1).values.addAll(clickTextListFromSP);
+                        if (resultList.get(1).values.size()>=5){
+                            resultList.get(1).values.remove(resultList.get(1).values.size()-1);
+                        }
+                        resultList.get(1).values.add(0,fragment_search_input_edittext.getText().toString());
                     }
                     searchFragmentElvAdapter.setResultList(resultList);
                     searchFragmentElvAdapter.notifyDataSetChanged();
@@ -94,11 +105,11 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
                     mSearchStatus = SEARCH_STATUS.SEARCH_EDITTEXT;
                     SharedPreferences sp = getActivity().getSharedPreferences(SPConstants.SP_NAME, getActivity().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    for (int i = 0;i<clickTextListFromSP.size();i++){
-                        editor.putString(SPConstants.SEARCH_CLICK+"_"+i, clickTextListFromSP.get(i));
+                    for (int i = 0;i<resultList.get(1).values.size();i++){
+                        editor.putString(SPConstants.SEARCH_CLICK+"_"+i, resultList.get(1).values.get(i));
                     }
                     editor.commit();
-                    searchFragmentPresenter.getSearchData(page, rows, fragment_search_input_edittext.getText().toString());
+                    searchFragmentPresenter.getSearchData(page, rows, fragment_search_input_edittext.getText().toString(),"");
                     //跳转到搜索结果界面
 
                     return true;
@@ -141,7 +152,7 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
         }
         resultList.add(hotIndexBean);
 
-        for (int i = 0;i<10;i++) {
+        for (int i = 0;i<5;i++) {
             if (!"".equals(getActivity().getSharedPreferences(SPConstants.SP_NAME, getActivity().MODE_PRIVATE).getString(SPConstants.SEARCH_CLICK+"_"+i, ""))){
                 clickTextListFromSP.add(getActivity().getSharedPreferences(SPConstants.SP_NAME, getActivity().MODE_PRIVATE).getString(SPConstants.SEARCH_CLICK+"_"+i, ""));
             }
@@ -160,10 +171,10 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
     }
 
     @Override
-    public void getSearchDataWithView(SecrchInfo.DataBean data) {
+    public void getSearchDataWithView(SearchInfo.DataBean data) {
         this.data = data;
         ArrayList<SeasonInfo> mSeasonInfoList = new ArrayList<>();
-        for (SecrchInfo.DataBean.ResultsBean secrchInfo : data.getResults()){
+        for (SearchInfo.DataBean.ResultsBean secrchInfo : data.getResults()){
             SeasonInfo seasonInfo = new SeasonInfo();
             seasonInfo.setTitle(secrchInfo.getTitle());
             seasonInfo.setCover(secrchInfo.getCover());

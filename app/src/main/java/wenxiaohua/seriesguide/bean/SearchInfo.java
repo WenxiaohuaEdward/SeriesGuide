@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by hexun on 2016/6/20.
  */
-public class SecrchInfo implements Serializable {
+public class SearchInfo implements Serializable {
 
     /**
      * code : 0000

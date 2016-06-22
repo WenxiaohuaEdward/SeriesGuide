@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo;
+import wenxiaohua.seriesguide.bean.SearchInfo;
 import wenxiaohua.seriesguide.impl.IDiscoverFragmentView;
 import wenxiaohua.seriesguide.model.DiscoverFragmentModel;
 import wenxiaohua.seriesguide.model.impl.IDiscoverFragmentModel;
@@ -32,6 +33,21 @@ public class DiscoverFragmentPresenter extends BasePresenter<IDiscoverFragmentVi
 
             @Override
             public void onFailure(Call<DiscoverFragmentInfo> call, Throwable t) {
+
+            }
+        });
+    }
+    public void getSearchData(String page,String rows ,String title, String cat, final int groupPosition){
+        mIDiscoverFragmentModel.getSearchDataWithModel(page, rows,title, cat, new Callback<SearchInfo>() {
+            @Override
+            public void onResponse(Call<SearchInfo> call, Response<SearchInfo> response) {
+                if (response == null || response.body() == null || response.body().getData() == null)
+                    return;
+                mView.getSearchDataWithView(response.body().getData(),groupPosition);
+            }
+
+            @Override
+            public void onFailure(Call<SearchInfo> call, Throwable t) {
 
             }
         });

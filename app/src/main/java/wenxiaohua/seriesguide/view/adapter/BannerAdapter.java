@@ -41,7 +41,6 @@ public class BannerAdapter extends PagerAdapter {
                     }
 
                 });
-
                 container.addView(view);
             return view;
         }
@@ -50,7 +49,7 @@ public class BannerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return imageViewContainer.size();
     }
 
     @Override
