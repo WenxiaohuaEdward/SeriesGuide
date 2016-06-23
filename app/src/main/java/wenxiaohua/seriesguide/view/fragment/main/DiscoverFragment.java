@@ -44,11 +44,11 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
     DiscoverFragmentElvAdapter discoverFragmentElvAdapter;
     private List<ImageView> imageViewContainer = new ArrayList<>();
     BannerAdapter bannerAdapter;
-    private int currentItem;
+    private int currentItem = 0;
     DiscoverFragmentPresenter discoverFragmentPresenter;
-    private String page = "0";
+    private String page = "1";
     private String rows = "20";
-
+    public String[] typeList =  {"动作","剧情","喜剧","生活","科幻","音乐","悬疑","犯罪","惊悚"};
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         fragment_discover_banner_vp = new ViewPager(getActivity());
@@ -69,9 +69,28 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
                     @Override
                     public boolean onGroupClick(ExpandableListView parent,
                                                 View v, int groupPosition, long childPosition) {
-                        discoverFragmentPresenter.getSearchData(page, rows, "", "", groupPosition);
+                        List<DiscoverFragmentInfo.DataBean.IndexBean> list =  discoverFragmentElvAdapter.getResultList();
+                        if ("flow".equals(list.get(groupPosition).getDisplayType())){
+                            if ("本周热门".equals( discoverData.getIndex().get(groupPosition).getTitle())){
+                                Intent videoCatListIntent = new Intent(getActivity(), VideoListActivity.class);
+                                videoCatListIntent.putExtra("title", discoverData.getIndex().get(groupPosition).getTitle());
+                                videoCatListIntent.putExtra("isHot", true);
+                                getActivity().startActivity(videoCatListIntent);
+                            }else if ("最新更新".equals( discoverData.getIndex().get(groupPosition).getTitle())){
+                                Intent videoCatListIntent = new Intent(getActivity(), VideoListActivity.class);
+                                videoCatListIntent.putExtra("title", discoverData.getIndex().get(groupPosition).getTitle());
+                                videoCatListIntent.putExtra("isNew", true);
+                                getActivity().startActivity(videoCatListIntent);
+                            }
+                        }else if("custom".equals(list.get(groupPosition).getDisplayType())){
 
-                        return true;
+                        } else{
+                            Intent videoCatListIntent = new Intent(getActivity(), VideoListActivity.class);
+                            videoCatListIntent.putExtra("title", discoverData.getIndex().get(groupPosition).getTitle());
+                            videoCatListIntent.putExtra("videoTypeCat", discoverData.getIndex().get(groupPosition).getTitle());
+                            getActivity().startActivity(videoCatListIntent);
+                        }
+                            return true;
                     }
                 });
     }
@@ -175,6 +194,18 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
     @Override
     public void getDiscoverDataWithView(DiscoverFragmentInfo.DataBean discoverData) {
         this.discoverData = discoverData;
+        DiscoverFragmentInfo.DataBean.IndexBean typeIndexBean = new DiscoverFragmentInfo.DataBean.IndexBean();
+        typeIndexBean.setDisplayType("custom");
+        List<DiscoverFragmentInfo.DataBean.IndexBean.SeasonList> seasonLists = new ArrayList<>();
+        for(int i = 0;i<typeList.length;i++){
+            DiscoverFragmentInfo.DataBean.IndexBean.SeasonList seasonList = new DiscoverFragmentInfo.DataBean.IndexBean.SeasonList();
+            seasonList.setCat(typeList[i]);
+            seasonList.setTitle(typeList[i]);
+            seasonList.setCover("http://img.rrmj.tv/video/20160324/o_1458810628298.jpg");
+            seasonLists.add(seasonList);
+        }
+        typeIndexBean.setSeasonList(seasonLists);
+        discoverData.getIndex().add(2,typeIndexBean);
         discoverFragmentElvAdapter.setResultList(discoverData.getIndex());
         discoverFragmentElvAdapter.notifyDataSetChanged();
         for (DiscoverFragmentInfo.DataBean.AlbumBean albumbean:discoverData.getAlbum()) {
@@ -207,7 +238,7 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
         Intent videoCatListIntent = new Intent(getActivity(), VideoListActivity.class);
         videoCatListIntent.putExtra("videoTypeTitle", discoverData.getIndex().get(groupPosition).getTitle());
         videoCatListIntent.putExtra("videoTypeId", discoverData.getIndex().get(groupPosition).getId());
-        videoCatListIntent.putExtra("seasonListData", mSeasonInfoList);
+
 
         getActivity().startActivity(videoCatListIntent);
     }
@@ -222,16 +253,19 @@ public class DiscoverFragment extends BaseFragment implements IDiscoverFragmentV
             public void run() {
                 synchronized (fragment_discover_banner_vp) {
                     while (!isStop) {
-                        //每个两秒钟发一条消息到主线程，更新viewpager界面
+                        //每个四秒钟发一条消息到主线程，更新viewpager界面
                         SystemClock.sleep(scrollTimeOffset);
                         if (getActivity() == null) {
                             return;
                         }
+
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
-                                currentItem
-                                        = (currentItem+1)%bannerAdapter.getCount();
-                                fragment_discover_banner_vp.setCurrentItem(currentItem);
+                                if (bannerAdapter.getCount()!=0) {
+                                    currentItem
+                                            = (currentItem + 1) % bannerAdapter.getCount();
+                                    fragment_discover_banner_vp.setCurrentItem(currentItem);
+                                }
                             }
                         });
                     }

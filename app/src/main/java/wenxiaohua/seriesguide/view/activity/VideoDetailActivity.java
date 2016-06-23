@@ -119,8 +119,10 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void getVideoDetailWithView(VideoDetailInfo.DataBean data) {
         this.data = data;
-        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(),data.getSeasonDetail().getTitle());
-        video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
+        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(), data.getSeasonDetail().getTitle(),data.getSeasonDetail().getUpdateinfo());
+//        if (data!=null&&!data.getSeasonDetail().getPlayUrlList().isEmpty()) {
+//            video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
+//        }
     }
     class EventHandler extends Handler {
         public EventHandler(Looper looper) {

@@ -35,5 +35,11 @@ public interface ApiService {
             @Query("title") String title,
             @Query("cat") String cat
     );
+    @POST("/v2/video/search?order=desc&sort=createTime")
+    Call<SearchInfo> getSearchHotOrNewDataWithApi(
+            @Query("page") String page,
+            @Query("rows") String rows,
+            @Query ("mark") String mark
+    );
 
 }

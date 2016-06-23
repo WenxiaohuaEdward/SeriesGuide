@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo.DataBean.IndexBean.SeasonList;
+import wenxiaohua.seriesguide.utils.PicassoUtils;
 import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
 
 /**
@@ -22,13 +21,11 @@ import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
  */
 public class DiscoverFragmentAdapter extends  RecyclerView.Adapter<DiscoverFragmentAdapter.ViewHolder>{
     private final Context mContext;
-    private final Picasso picasso;
     private List<SeasonList> discoverFragmentInfoList =new ArrayList<>();
     private RecyclerViewItemClickListener mItemClickListener ;
 
     public DiscoverFragmentAdapter(Context context) {
         this.mContext = context;
-        picasso = Picasso.with(context);
     }
 
     public List<SeasonList> getDiscoverFragmentInfoList() {
@@ -53,8 +50,10 @@ public class DiscoverFragmentAdapter extends  RecyclerView.Adapter<DiscoverFragm
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        picasso.load(discoverFragmentInfoList.get(position).getCover()).into(holder.fragment_discover_cover_iv);
-        holder.fragment_discover_schedule_tv.setText("更新至"+discoverFragmentInfoList.get(position).getUpInfo()+"集");
+        PicassoUtils.getPicassoInstance(mContext, discoverFragmentInfoList.get(position).getCover(), holder.fragment_discover_cover_iv);
+        if (discoverFragmentInfoList.get(position).getUpInfo()!=0){
+            holder.fragment_discover_schedule_tv.setText("更新至"+discoverFragmentInfoList.get(position).getUpInfo()+"集");
+        }
         holder.fragment_discover_title_tv.setText(discoverFragmentInfoList.get(position).getTitle());
 
     }

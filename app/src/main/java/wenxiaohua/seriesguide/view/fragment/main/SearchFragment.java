@@ -76,7 +76,10 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
                 ArrayList<IndexBean> list = searchFragmentElvAdapter.getResultList();
                 mSearchStatus = SEARCH_STATUS.SEARCH_HOTWORD;
                 childClickText = list.get(groupPosition).values.get(childPosition);
-                searchFragmentPresenter.getSearchData(page, rows,childClickText,"");
+//                searchFragmentPresenter.getSearchData(page, rows,childClickText,"");
+                Intent clickTextIntent =  new Intent(getActivity(),VideoListActivity.class);
+                clickTextIntent.putExtra("videoTypeTitle", childClickText);
+                getActivity().startActivity(clickTextIntent);
                 return true;
             }
         });
@@ -109,8 +112,12 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
                         editor.putString(SPConstants.SEARCH_CLICK+"_"+i, resultList.get(1).values.get(i));
                     }
                     editor.commit();
-                    searchFragmentPresenter.getSearchData(page, rows, fragment_search_input_edittext.getText().toString(),"");
                     //跳转到搜索结果界面
+                    Intent searchTextIntent =  new Intent(getActivity(),VideoListActivity.class);
+                    searchTextIntent.putExtra("videoTypeTitle", fragment_search_input_edittext.getText().toString());
+                    getActivity().startActivity(searchTextIntent);
+//                    searchFragmentPresenter.getSearchData(page, rows, fragment_search_input_edittext.getText().toString(),"");
+
 
                     return true;
                 }
@@ -185,12 +192,14 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
         }
         Intent videoList = new Intent(context,VideoListActivity.class);
         if (mSearchStatus == SEARCH_STATUS.SEARCH_EDITTEXT){
-
             videoList.putExtra("videoTypeTitle", fragment_search_input_edittext.getText().toString());
+            videoList.putExtra("title", fragment_search_input_edittext.getText().toString());
+
         }else  if (mSearchStatus == SEARCH_STATUS.SEARCH_HOTWORD){
             videoList.putExtra("videoTypeTitle", childClickText);
-        }
+            videoList.putExtra("title", childClickText);
 
+        }
         videoList.putExtra("seasonListData", mSeasonInfoList);
         getActivity().startActivity(videoList);
 

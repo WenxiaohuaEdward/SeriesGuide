@@ -15,6 +15,7 @@ import java.util.List;
 import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo.DataBean.IndexBean;
 import wenxiaohua.seriesguide.view.activity.VideoDetailActivity;
+import wenxiaohua.seriesguide.view.activity.VideoListActivity;
 import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
 import wenxiaohua.seriesguide.view.views.NestRecyclerViewLayoutManager;
 
@@ -87,7 +88,7 @@ public class DiscoverFragmentElvAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)  {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent)  {
         convertView = View.inflate(context,R.layout.item_discover_list_child,null);
         RecyclerView fragment_discover_rv = (RecyclerView) convertView.findViewById(R.id.fragment_discover_rv);
         int spanCount = 1; // 只显示一行
@@ -98,10 +99,19 @@ public class DiscoverFragmentElvAdapter extends BaseExpandableListAdapter {
         discoverFragmentAdapter.setOnItemClickListener(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int ItemPostion) {
-                Intent videoDetail = new Intent(context,VideoDetailActivity.class);
-                videoDetail.putExtra("seasonId",  resultList.get(groupPosition).getSeasonList().get(ItemPostion).getId()+"");
-                videoDetail.putExtra("seasonTitle", resultList.get(groupPosition).getSeasonList().get(ItemPostion).getTitle());
-                context.startActivity(videoDetail);
+                if("custom".equals(resultList.get(groupPosition).getDisplayType())){
+                    Intent videoCatListIntent = new Intent(context, VideoListActivity.class);
+                    videoCatListIntent.putExtra("title", resultList.get(groupPosition).getSeasonList().get(ItemPostion).getTitle());
+                    videoCatListIntent.putExtra("videoTypeCat", resultList.get(groupPosition).getSeasonList().get(ItemPostion).getCat());
+                    context.startActivity(videoCatListIntent);
+
+                }else{
+                    Intent videoDetail = new Intent(context,VideoDetailActivity.class);
+                    videoDetail.putExtra("seasonId",  resultList.get(groupPosition).getSeasonList().get(ItemPostion).getId()+"");
+                    videoDetail.putExtra("seasonTitle", resultList.get(groupPosition).getSeasonList().get(ItemPostion).getTitle());
+                    context.startActivity(videoDetail);
+                }
+
             }
         });
         fragment_discover_rv.setAdapter(discoverFragmentAdapter);

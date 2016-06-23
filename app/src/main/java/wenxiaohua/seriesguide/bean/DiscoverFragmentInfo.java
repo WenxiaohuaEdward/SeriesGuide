@@ -188,6 +188,15 @@ public class DiscoverFragmentInfo implements Serializable{
                 private String cover;
                 private String mark;
                 private int id;
+                private String cat;
+
+                public String getCat() {
+                    return cat;
+                }
+
+                public void setCat(String cat) {
+                    this.cat = cat;
+                }
 
                 public String getTitle() {
                     return title;

@@ -48,6 +48,18 @@ public class SeasonDBUtils {
         }
 
     }
+    public void getAllSeason(){
+            // Query 类代表了一个可以被重复执行的查询
+            Query query = seriesGuideSeasonDao.queryBuilder()
+                    .orderAsc(SeriesGuideSeasonDao.Properties.ViewCount)
+                    .build();
+            // 查询结果以 List 返回
+            List notes = query.list();
+            // 在 QueryBuilder 类中内置两个 Flag 用于方便输出执行的 SQL 语句与传递参数的值
+            QueryBuilder.LOG_SQL = true;
+            QueryBuilder.LOG_VALUES = true;
+
+    }
     public void deleteSeason(Long id){
         if (id!=null&&0!=id){
             // 删除操作，你可以通过「id」也可以一次性删除所有

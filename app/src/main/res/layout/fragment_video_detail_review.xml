@@ -14,15 +14,24 @@
         android:textStyle="bold"
         android:padding="10dp"
         android:id="@+id/fragment_video_detail_review_title"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e6e6e6"
-        android:id="@+id/fragment_video_detail_review_line"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:id="@+id/fragment_video_detail_review_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e6e6e6"
+            android:id="@+id/fragment_video_detail_review_line"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_video_detail_listnum_rv"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
+
 </ScrollView>

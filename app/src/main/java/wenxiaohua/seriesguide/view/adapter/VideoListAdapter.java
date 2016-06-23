@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wenxiaohua.seriesguide.R;
-import wenxiaohua.seriesguide.bean.SeasonInfo;
+import wenxiaohua.seriesguide.bean.SearchInfo;
 import wenxiaohua.seriesguide.utils.PicassoUtils;
 
 /**
@@ -18,22 +18,18 @@ import wenxiaohua.seriesguide.utils.PicassoUtils;
  */
 public class VideoListAdapter extends android.widget.BaseAdapter {
     private final Context context;
-    private ImageView item_video_type_iv;
-    private TextView item_video_type_title;
-    private TextView item_video_type_movie_review;
-    private TextView item_video_type_commentSum;
-    private TextView item_video_type_watchSum;
-    List<SeasonInfo> mSeasonInfoList = new ArrayList<>();
+
+    List<SearchInfo.DataBean.ResultsBean> mSeasonInfoList = new ArrayList<>();
     public VideoListAdapter(Context context) {
         this.context =context;
 
     }
 
-    public List<SeasonInfo> getmSeasonInfoList() {
+    public List<SearchInfo.DataBean.ResultsBean> getmSeasonInfoList() {
         return mSeasonInfoList;
     }
 
-    public void setmSeasonInfoList(List<SeasonInfo> mSeasonInfoList) {
+    public void setmSeasonInfoList(List<SearchInfo.DataBean.ResultsBean> mSeasonInfoList) {
         this.mSeasonInfoList = mSeasonInfoList;
     }
 
@@ -44,7 +40,7 @@ public class VideoListAdapter extends android.widget.BaseAdapter {
     }
 
     @Override
-    public SeasonInfo getItem(int position) {
+    public SearchInfo.DataBean.ResultsBean getItem(int position) {
         return mSeasonInfoList.get(position);
     }
 
@@ -71,7 +67,7 @@ public class VideoListAdapter extends android.widget.BaseAdapter {
             holder= (ViewHolder)convertView.getTag();
         }
 
-        SeasonInfo seasonInfo  = getItem(position);
+        SearchInfo.DataBean.ResultsBean seasonInfo  = getItem(position);
         if(seasonInfo!=null&&!"".equals(seasonInfo.getCover())) {
             PicassoUtils.getPicassoInstance(context, seasonInfo.getCover(), holder.item_video_type_iv);
         }else{
@@ -79,7 +75,7 @@ public class VideoListAdapter extends android.widget.BaseAdapter {
         }
         holder.item_video_type_title.setText(seasonInfo.getTitle());
         holder.item_video_type_movie_review.setText(seasonInfo.getBrief());
-        holder.item_video_type_watchSum.setText(seasonInfo.getViewCount()+"");
+        holder.item_video_type_watchSum.setText(seasonInfo.getScore()+"");
 
 
         return convertView;
