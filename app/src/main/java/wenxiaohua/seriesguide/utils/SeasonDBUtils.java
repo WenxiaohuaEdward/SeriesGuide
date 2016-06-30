@@ -16,8 +16,10 @@ import wenxiaohua.seriesguide.SeriesGuideApplication;
  */
 public class SeasonDBUtils {
     private final Cursor cursor;
+    private volatile static SeasonDBUtils mSeasonDBUtils;
     SeriesGuideSeasonDao seriesGuideSeasonDao;
-    public SeasonDBUtils(Context context){
+    static final int pageSize=20;//分页时，每页的数据总数
+    private SeasonDBUtils(Context context){
 
         SeriesGuideApplication seriesGuideApplication  =  (SeriesGuideApplication)context.getApplicationContext();
 
@@ -26,6 +28,17 @@ public class SeasonDBUtils {
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         cursor = seriesGuideApplication.getDb().query(seriesGuideSeasonDao.getTablename(), seriesGuideSeasonDao.getAllColumns(), null, null, null, null, orderBy);
     }
+
+    public static SeasonDBUtils getInstance(Context context) {
+        if (mSeasonDBUtils == null) {
+            synchronized (SeasonDBUtils.class) {
+                if (mSeasonDBUtils == null) {
+                    mSeasonDBUtils = new SeasonDBUtils(context);
+                }
+            }
+        }
+        return mSeasonDBUtils;
+    }
     public void addSeason(SeriesGuideSeason info){
         if (info!=null&&0!=info.getId()){
             seriesGuideSeasonDao.insert(info);
@@ -33,32 +46,43 @@ public class SeasonDBUtils {
         }
 
     }
-    public void getSeason(Long id){
+    public List<SeriesGuideSeason> getSeason(Long id){
         if (id!=null&&0!=id){
             // Query 类代表了一个可以被重复执行的查询
             Query query = seriesGuideSeasonDao.queryBuilder()
                     .where(SeriesGuideSeasonDao.Properties.Id.eq(id))
-                    .orderAsc(SeriesGuideSeasonDao.Properties.ViewCount)
+                    .orderAsc(SeriesGuideSeasonDao.Properties.CreateTime)
                     .build();
             // 查询结果以 List 返回
             List notes = query.list();
             // 在 QueryBuilder 类中内置两个 Flag 用于方便输出执行的 SQL 语句与传递参数的值
             QueryBuilder.LOG_SQL = true;
             QueryBuilder.LOG_VALUES = true;
+            if(null == notes){
+                return null;
+            }else{
+                return notes;
+            }
         }
-
+        return null;
     }
-    public void getAllSeason(){
+    public List<SeriesGuideSeason> getAllSeason(int page){
             // Query 类代表了一个可以被重复执行的查询
             Query query = seriesGuideSeasonDao.queryBuilder()
-                    .orderAsc(SeriesGuideSeasonDao.Properties.ViewCount)
+                    .orderDesc(SeriesGuideSeasonDao.Properties.CreateTime)
+                    .limit(pageSize)
+                    .offset(page*pageSize)
                     .build();
             // 查询结果以 List 返回
             List notes = query.list();
             // 在 QueryBuilder 类中内置两个 Flag 用于方便输出执行的 SQL 语句与传递参数的值
             QueryBuilder.LOG_SQL = true;
             QueryBuilder.LOG_VALUES = true;
-
+            if(null == notes){
+                return null;
+            }else{
+                return notes;
+            }
     }
     public void deleteSeason(Long id){
         if (id!=null&&0!=id){

@@ -13,14 +13,20 @@ import android.util.Log;
 
 import com.baidu.cyberplayer.core.BVideoView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.VideoDetailInfo;
+import wenxiaohua.seriesguide.event.Event;
 import wenxiaohua.seriesguide.impl.IVideoDetailView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
 import wenxiaohua.seriesguide.presenter.VideoDetailPresenter;
+import wenxiaohua.seriesguide.utils.SeasonDBUtils;
 import wenxiaohua.seriesguide.view.adapter.FragmentAdapter;
 import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailCommentFragment;
 import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailReviewFragment;
@@ -65,7 +71,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     private String TAG = "VideoDetailActivity";
     private HandlerThread mHandlerThread;
     private EventHandler mEventHandler;
-
+    SeasonDBUtils mSeasonDBUtils;
     @Override
     protected void initView() {
         video_detail_toolbar.setTitle(getIntent().getStringExtra("seasonTitle"));
@@ -77,9 +83,15 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
                 android.os.Process.THREAD_PRIORITY_BACKGROUND);
         mHandlerThread.start();
         mEventHandler = new EventHandler(mHandlerThread.getLooper());
-
-
+        EventBus.getDefault().register(this);
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
 
     @Override
     protected void initData() {
@@ -108,7 +120,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         video_detail_vp.setOffscreenPageLimit(2);
         video_detail_tabs.setupWithViewPager(video_detail_vp);//将TabLayout和ViewPager关联起来
         VideoDetailPresenter videoDetailPresenter = (VideoDetailPresenter)mPresenter;
-        videoDetailPresenter.getVideoDetail(seasonId);
+        videoDetailPresenter.getVideoDetail(getApplicationContext(),seasonId);
     }
 
 
@@ -132,11 +144,14 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     public void getVideoDetailWithView(VideoDetailInfo.DataBean data) {
         this.data = data;
 
+
+
         videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(), data.getSeasonDetail().getTitle(), data.getSeasonDetail().getUpdateinfo());
 //        if (data!=null&&!data.getSeasonDetail().getPlayUrlList().isEmpty()) {
 //            video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
 //        }
     }
+
     class EventHandler extends Handler {
         public EventHandler(Looper looper) {
             super(looper);
@@ -193,5 +208,8 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showHistory(Event.SeriesGuideSeasonEvent seasonEvent){
 
+    }
 }
