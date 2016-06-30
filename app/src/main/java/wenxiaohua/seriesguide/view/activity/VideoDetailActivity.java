@@ -1,6 +1,10 @@
 package wenxiaohua.seriesguide.view.activity;
 
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -34,11 +38,15 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     TabLayout video_detail_tabs;
     @Bind(R.id.video_view)
     BVideoView video_view;
+
+
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
     private String seasonId;
     private VideoDetailInfo.DataBean data;
     VideoDetailReviewFragment videoDetailReviewFragment;
+
+
     /**
      * 播放状态
      */
@@ -70,10 +78,12 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         mHandlerThread.start();
         mEventHandler = new EventHandler(mHandlerThread.getLooper());
 
+
     }
 
     @Override
     protected void initData() {
+
 
         videoDetailReviewFragment= new VideoDetailReviewFragment();
         Bundle bundleReview =  new Bundle();
@@ -101,6 +111,8 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         videoDetailPresenter.getVideoDetail(seasonId);
     }
 
+
+
     @Override
     public BasePresenter getPresenter() {
         return new VideoDetailPresenter();
@@ -119,7 +131,8 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void getVideoDetailWithView(VideoDetailInfo.DataBean data) {
         this.data = data;
-        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(), data.getSeasonDetail().getTitle(),data.getSeasonDetail().getUpdateinfo());
+
+        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(), data.getSeasonDetail().getTitle(), data.getSeasonDetail().getUpdateinfo());
 //        if (data!=null&&!data.getSeasonDetail().getPlayUrlList().isEmpty()) {
 //            video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
 //        }

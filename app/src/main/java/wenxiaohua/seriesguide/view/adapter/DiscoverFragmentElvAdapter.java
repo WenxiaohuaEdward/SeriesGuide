@@ -17,7 +17,7 @@ import wenxiaohua.seriesguide.bean.DiscoverFragmentInfo.DataBean.IndexBean;
 import wenxiaohua.seriesguide.view.activity.VideoDetailActivity;
 import wenxiaohua.seriesguide.view.activity.VideoListActivity;
 import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
-import wenxiaohua.seriesguide.view.views.NestRecyclerViewLayoutManager;
+import wenxiaohua.seriesguide.view.views.layoutmanager.NestStaggeredGridLayoutManager;
 
 /**
  * Created by hexun on 2016/6/8.
@@ -92,7 +92,7 @@ public class DiscoverFragmentElvAdapter extends BaseExpandableListAdapter {
         convertView = View.inflate(context,R.layout.item_discover_list_child,null);
         RecyclerView fragment_discover_rv = (RecyclerView) convertView.findViewById(R.id.fragment_discover_rv);
         int spanCount = 1; // 只显示一行
-        NestRecyclerViewLayoutManager mStaggeredGridLayoutManager= new NestRecyclerViewLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL);
+        NestStaggeredGridLayoutManager mStaggeredGridLayoutManager= new NestStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL);
         fragment_discover_rv.setLayoutManager(mStaggeredGridLayoutManager);
         discoverFragmentAdapter  = new DiscoverFragmentAdapter(context);
         discoverFragmentAdapter.setDiscoverFragmentInfoList(resultList.get(groupPosition).getSeasonList());

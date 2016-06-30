@@ -71,7 +71,7 @@ public class VideoDetailCommentFragmentAdapter extends android.widget.BaseAdapte
             holder.video_detail_comment_cover_iv.setImageResource(R.mipmap.ic_launcher);
         }
         holder.video_detail_comment_content_tv.setText(resultsBean.getContent());
-        holder.video_detail_comment_time_tv.setText(resultsBean.getAuthor().getCreateTimeStr());
+        holder.video_detail_comment_time_tv.setText(resultsBean.getAuthor().getUpdateTime()+"");
         holder.video_detail_comment_username_tv.setText(resultsBean.getAuthor().getNickName());
         return convertView;
     }

@@ -17,13 +17,13 @@ public class ContextUtils {
      *            （DisplayMetrics类中属性scaledDensity）
      * @return
      */
-    public static int px2sp(Context context, float pxValue) {
+    public static int px2sp(Context context, double pxValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
 
     /** dip转换px */
-    public static int dip2px(Context context, float dip) {
+    public static int dip2px(Context context, double dip) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dip * scale + 0.5f);
     }
@@ -37,7 +37,7 @@ public class ContextUtils {
      *            （DisplayMetrics类中属性scaledDensity）
      * @return
      */
-    public static int sp2px(Context context, float spValue) {
+    public static int sp2px(Context context, double spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }

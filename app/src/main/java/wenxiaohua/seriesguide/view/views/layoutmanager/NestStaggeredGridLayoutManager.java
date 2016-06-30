@@ -1,4 +1,4 @@
-package wenxiaohua.seriesguide.view.views;
+package wenxiaohua.seriesguide.view.views.layoutmanager;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 /**
  * Created by hexun on 2016/6/14.
  */
-public class NestRecyclerViewLayoutManager extends StaggeredGridLayoutManager{
+public class NestStaggeredGridLayoutManager extends StaggeredGridLayoutManager{
 
     private int[] mMeasuredDimension = new int[2];
 
-    public NestRecyclerViewLayoutManager(int spanCount, int orientation) {
+    public NestStaggeredGridLayoutManager(int spanCount, int orientation) {
         super(spanCount, orientation);
     }
 

@@ -1,8 +1,8 @@
 package wenxiaohua.seriesguide.view.fragment.videodetail;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +16,7 @@ import wenxiaohua.seriesguide.presenter.VideoDetailReviewPresenter;
 import wenxiaohua.seriesguide.view.adapter.VideoDetailReviewNumAdapter;
 import wenxiaohua.seriesguide.view.fragment.BaseFragment;
 import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
-import wenxiaohua.seriesguide.view.views.NestRecyclerViewLayoutManager;
+import wenxiaohua.seriesguide.view.views.layoutmanager.NestGridLayoutManager;
 
 /**
  * Created by hexun on 2016/6/15.
@@ -28,16 +28,21 @@ public class VideoDetailReviewFragment extends BaseFragment {
     @Bind(R.id.fragment_video_detail_review_content)
     TextView fragment_video_detail_review_content;
     @Bind(R.id.fragment_video_detail_listnum_rv)
-    RecyclerView fragment_video_detail_listnum_rv;
-    private int updateInfo;
-    VideoDetailReviewNumAdapter  mVideoDetailReviewNumAdapter;
+    RecyclerView fragment_video_detail_listNum_rv;
+    private VideoDetailReviewNumAdapter mVideoDetailReviewNumAdapter;
+    private int updateinfo;
+
     public VideoDetailReviewFragment(){
     }
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        /**
+         * 选集、
+         */
 
+        fragment_video_detail_listNum_rv. setNestedScrollingEnabled(false);
         mVideoDetailReviewNumAdapter =  new VideoDetailReviewNumAdapter(getActivity());
-        fragment_video_detail_listnum_rv.setAdapter(mVideoDetailReviewNumAdapter);
+        fragment_video_detail_listNum_rv.setAdapter(mVideoDetailReviewNumAdapter);
         mVideoDetailReviewNumAdapter.setOnItemClickListener(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
@@ -46,32 +51,28 @@ public class VideoDetailReviewFragment extends BaseFragment {
         });
 
     }
-    public void setReviewData(String brief, String title,int updateInfo){
+    public void setReviewData(String brief, String title,int updateinfo){
         if(brief!=null){
             fragment_video_detail_review_content.setText(brief);
             }
         if (title!=null){
             fragment_video_detail_review_title.setText(title);
         }
-        this.updateInfo = updateInfo;
-        if (updateInfo!=0) {
-            int spanCount = 1;
-            NestRecyclerViewLayoutManager mStaggeredGridLayoutManager = new NestRecyclerViewLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL);
-            fragment_video_detail_listnum_rv.setLayoutManager(mStaggeredGridLayoutManager);
-            fragment_video_detail_listnum_rv.setVisibility(View.VISIBLE);
-        }else{
-            fragment_video_detail_listnum_rv.setVisibility(View.GONE);
-        }
-    }
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-        seasonId = getArguments().getString("seasonId");
+        this.updateinfo =updateinfo;
         List<String> numList = new ArrayList<>();
-        for (int i= 0;i<updateInfo;i++){
+        for (int i= 1;i<=updateinfo;i++){
             numList.add(i+"");
         }
         mVideoDetailReviewNumAdapter.setNumList(numList);
         mVideoDetailReviewNumAdapter.notifyDataSetChanged();
+        int spanCount = 4;
+        NestGridLayoutManager mNestGridLayoutManager = new NestGridLayoutManager(getActivity(),spanCount, GridLayoutManager.VERTICAL,false);
+        fragment_video_detail_listNum_rv.setLayoutManager(mNestGridLayoutManager);
+    }
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        seasonId = getArguments().getString("seasonId");
+
     }
 
     @Override

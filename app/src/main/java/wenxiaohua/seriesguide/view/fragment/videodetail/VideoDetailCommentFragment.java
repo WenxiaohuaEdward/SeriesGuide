@@ -22,7 +22,7 @@ import wenxiaohua.seriesguide.view.views.XListView;
 public class VideoDetailCommentFragment extends BaseFragment implements IVideoDetailCommentView, XListView.IXListViewListener {
     @Bind(R.id.fragment_video_detail_comment_xlv)
     XListView fragment_video_detail_comment_xlv;
-    private int page =0;
+    private int page =1;
     private String rows = "20";
     private String seasonId;
     VideoDetailCommentFragmentAdapter mVideoDetailCommentFragmentAdapter;
@@ -74,7 +74,7 @@ public class VideoDetailCommentFragment extends BaseFragment implements IVideoDe
 
     @Override
     public void onRefresh() {
-        page = 0;
+        page = 1;
         mVideoDetailCommentFragmentAdapter.getmVideoDetailCommentInfoList().clear();
         VideoDetailCommentPresenter videoDetailCommentPresenter = (VideoDetailCommentPresenter)mPresenter;
         videoDetailCommentPresenter.getVideoDetailComment(page+"",rows,seasonId);
