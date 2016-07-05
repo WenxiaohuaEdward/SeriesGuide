@@ -24,7 +24,7 @@ public class VideoDetailCommentPresenter extends BasePresenter<IVideoDetailComme
         mIVideoDetailCommentModel.getVideoDetailCommentWithModel( page,  rows, seasonId,new Callback<VideoDetailCommentInfo>() {
             @Override
             public void onResponse(Call<VideoDetailCommentInfo> call, Response<VideoDetailCommentInfo> response) {
-                if (mView==null||response == null || response.body() == null || response.body().getData() == null)
+                if (mView==null||response == null || response.body() == null || response.body().getData() == null||mView==null)
                     return;
                 mView.getVideoDetailCommentWithView(response.body().getData());
             }

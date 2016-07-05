@@ -75,6 +75,7 @@ public class MainActivity extends BaseActivity implements IMainView, View.OnClic
         main_discover_radiobutton.setOnClickListener(this);
         main_search_radiobutton.setOnClickListener(this);
         main_viewpager.setNoScroll(true);
+
     }
 
     @Override

@@ -10,6 +10,34 @@
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="评分"
+                android:paddingTop="10dp"
+                android:id="@+id/fragment_video_detail_review_grade"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+                android:text="收藏"
+                android:id="@+id/fragment_video_detail_review_collect"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="缓存"
+                android:padding="10dp"
+                android:gravity="center"
+                android:id="@+id/fragment_video_detail_review_cache"/>
+        </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

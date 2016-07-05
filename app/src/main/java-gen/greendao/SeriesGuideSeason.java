@@ -8,6 +8,7 @@ public class SeriesGuideSeason {
 
     private Long id;
     private String title;
+    private String type;
     private Double score;
     private String cat;
     private String brief;
@@ -29,9 +30,10 @@ public class SeriesGuideSeason {
         this.id = id;
     }
 
-    public SeriesGuideSeason(Long id, String title, Double score, String cat, String brief, String cover, String enTitle, String playStatus, String createTimeStr, Boolean isFocus, Integer viewCount, Integer updateInfo, Integer total, Long createTime, Long updateTime) {
+    public SeriesGuideSeason(Long id, String title, String type, Double score, String cat, String brief, String cover, String enTitle, String playStatus, String createTimeStr, Boolean isFocus, Integer viewCount, Integer updateInfo, Integer total, Long createTime, Long updateTime) {
         this.id = id;
         this.title = title;
+        this.type = type;
         this.score = score;
         this.cat = cat;
         this.brief = brief;
@@ -61,6 +63,14 @@ public class SeriesGuideSeason {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Double getScore() {

@@ -146,7 +146,7 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
 
 
 
-        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(), data.getSeasonDetail().getTitle(), data.getSeasonDetail().getUpdateinfo());
+        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(),data.getSeasonDetail().getCover(), data.getSeasonDetail().getTitle(),data.getSeasonDetail().getScore()+"", data.getSeasonDetail().getUpdateinfo(),data);
 //        if (data!=null&&!data.getSeasonDetail().getPlayUrlList().isEmpty()) {
 //            video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
 //        }

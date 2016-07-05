@@ -6,4 +6,5 @@ package wenxiaohua.seriesguide.constant;
 public class DBConstants {
     public final static String DB_NAME = "SeriesGuideSeason";
 
+
 }

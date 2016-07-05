@@ -6,7 +6,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class greenDaoGenerator {
         public static void main(String[] args) throws Exception {
-            Schema schema = new Schema(1, "greendao");
+            Schema schema = new Schema(2, "greendao");
 //      schema.setDefaultJavaPackageDao("wenxiaohua.seriesguide.dao");
 
             addSeason(schema);
@@ -23,6 +23,7 @@ public class greenDaoGenerator {
             season.addIdProperty();
 //            season.addIntProperty("id").notNull();
             season.addStringProperty("title");
+            season.addStringProperty("type");
             season.addDoubleProperty("score");
             season.addStringProperty("cat");
             season.addStringProperty("brief");

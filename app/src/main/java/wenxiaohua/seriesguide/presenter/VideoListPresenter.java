@@ -21,7 +21,7 @@ public class VideoListPresenter extends BasePresenter<IVideoListView> {
         mIVideoListModel.getSearchDataWithModel(page, rows, title,cat, new Callback<SearchInfo>() {
             @Override
             public void onResponse(Call<SearchInfo> call, Response<SearchInfo> response) {
-                if (response == null || response.body() == null || response.body().getData() == null)
+                if (response == null || response.body() == null || response.body().getData() == null||mView==null)
                     return;
                 mView.getSearchDataWithView(response.body().getData());
             }

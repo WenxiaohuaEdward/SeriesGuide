@@ -36,8 +36,8 @@ public class LikeFragment extends BaseFragment {
         titleList.add("收藏");
         titleList.add("缓存");
         fragmentList.add(new LikeListHistoryFragment());
-        fragmentList.add(new LikeListCacheFragment());
         fragmentList.add(new LikeListCollectFragment());
+        fragmentList.add(new LikeListCacheFragment());
         //设置TabLayout的模式
         tab_likeFragment_title.setTabMode(TabLayout.MODE_FIXED);
         //为TabLayout添加tab名称
@@ -47,7 +47,7 @@ public class LikeFragment extends BaseFragment {
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getChildFragmentManager(),fragmentList,titleList);
         fragment_like_viewpager.setAdapter(fragmentAdapter);
         tab_likeFragment_title.setupWithViewPager(fragment_like_viewpager);//将TabLayout和ViewPager关联起来
-
+        fragment_like_viewpager.setOffscreenPageLimit(3);
     }
 
     @Override

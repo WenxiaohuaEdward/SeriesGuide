@@ -65,8 +65,10 @@ public class LikeListHistoryFragment extends BaseFragment implements  XListView.
     }
     public void getDataFromDB(){
         List<SeriesGuideSeason> seriesGuideSeasonList = SeasonDBUtils.getInstance(getActivity()).getAllSeason(page);
-        likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().addAll(seriesGuideSeasonList);
-        likeFragmentHistoryListAdapter.notifyDataSetChanged();
+        if (seriesGuideSeasonList!=null) {
+            likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().addAll(seriesGuideSeasonList);
+            likeFragmentHistoryListAdapter.notifyDataSetChanged();
+        }
         fragment_like_history_listview.stopRefresh();
         fragment_like_history_listview.stopLoadMore();
     }
@@ -85,22 +87,23 @@ public class LikeListHistoryFragment extends BaseFragment implements  XListView.
         return R.layout.fragment_like_history_list;
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void showHistory(Event.SeriesGuideSeasonEvent seasonEvent){
-        if(seasonEvent.isExist()){
-            SeriesGuideSeason existSeason = null;
-            for (SeriesGuideSeason existSeriesGuideSeason : likeFragmentHistoryListAdapter.getSeriesGuideSeasonList()){
-                if (existSeriesGuideSeason.getId().equals(seasonEvent.getSeriesGuideSeason().getId())){
-                    existSeason = existSeriesGuideSeason;
+    public void showHistory(Event.SeriesGuideSeasonEvent seasonEvent) {
+        if ("history".equals(seasonEvent.getType())) {
+            if (seasonEvent.isExist()) {
+                SeriesGuideSeason existSeason = null;
+                for (SeriesGuideSeason existSeriesGuideSeason : likeFragmentHistoryListAdapter.getSeriesGuideSeasonList()) {
+                    if (existSeriesGuideSeason.getId().equals(seasonEvent.getSeriesGuideSeason().getId())) {
+                        existSeason = existSeriesGuideSeason;
+                    }
                 }
+                likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().remove(existSeason);
+                likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().add(0, seasonEvent.getSeriesGuideSeason());
+            } else {
+                likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().add(0, seasonEvent.getSeriesGuideSeason());
             }
-            likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().remove(existSeason);
-            likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().add(0,seasonEvent.getSeriesGuideSeason());
-        } else {
-            likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().add(0,seasonEvent.getSeriesGuideSeason());
+            likeFragmentHistoryListAdapter.notifyDataSetChanged();
         }
-        likeFragmentHistoryListAdapter.notifyDataSetChanged();
     }
-
     @Override
     public void onRefresh() {
         likeFragmentHistoryListAdapter.getSeriesGuideSeasonList().clear();

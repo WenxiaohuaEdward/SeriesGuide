@@ -12,10 +12,20 @@ public class Event {
     public static class SeriesGuideSeasonEvent {
         private SeriesGuideSeason seriesGuideSeason;
         private boolean isExist;
+        private String type;
 
-        public SeriesGuideSeasonEvent(SeriesGuideSeason seriesGuideSeason, boolean isExist) {
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public SeriesGuideSeasonEvent(SeriesGuideSeason seriesGuideSeason, boolean isExist, String type) {
             this.seriesGuideSeason = seriesGuideSeason;
             this.isExist = isExist;
+            this.type =type;
         }
 
         public boolean isExist() {
@@ -34,5 +44,20 @@ public class Event {
             this.seriesGuideSeason = seriesGuideSeason;
         }
     }
+    public static class SeriesGuideDeleteSeasonEvent {
+        private SeriesGuideSeason seriesGuideSeason;
 
+
+        public SeriesGuideDeleteSeasonEvent(SeriesGuideSeason seriesGuideSeason) {
+            this.seriesGuideSeason = seriesGuideSeason;
+        }
+
+        public void setSeriesGuideSeason(SeriesGuideSeason seriesGuideSeason) {
+            this.seriesGuideSeason = seriesGuideSeason;
+        }
+
+        public SeriesGuideSeason getSeriesGuideSeason() {
+            return seriesGuideSeason;
+        }
+    }
 }

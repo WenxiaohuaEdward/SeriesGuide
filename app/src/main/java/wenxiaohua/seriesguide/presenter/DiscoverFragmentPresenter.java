@@ -25,7 +25,7 @@ public class DiscoverFragmentPresenter extends BasePresenter<IDiscoverFragmentVi
         mIDiscoverFragmentModel.getDiscoverDataWithModel(new Callback<DiscoverFragmentInfo>() {
             @Override
             public void onResponse(Call<DiscoverFragmentInfo> call, Response<DiscoverFragmentInfo> response) {
-                if (response == null || response.body() == null || response.body().getData() == null)
+                if (response == null || response.body() == null || response.body().getData() == null||mView==null)
                     return;
                 Log.v("SearchFragmentPresenter", response.body().toString());
                 mView.getDiscoverDataWithView(response.body().getData());
