@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import wenxiaohua.seriesguide.bean.VideoDetailInfo;
+import wenxiaohua.seriesguide.bean.VideoM3U8PathBean;
 import wenxiaohua.seriesguide.inter.ApiService;
 import wenxiaohua.seriesguide.model.impl.IVideoDetailModel;
 import wenxiaohua.seriesguide.utils.RetrofitUtils;
@@ -19,4 +20,15 @@ public class VideoDetailModel implements IVideoDetailModel {
         Call<VideoDetailInfo> call = service.getVideoDetailWithApi(seasonId);
         call.enqueue(callback);
     }
+
+
+
+    @Override
+    public void getVideoWithModel(String seasonId, String episodeSid, Callback<VideoM3U8PathBean> callback) {
+        Retrofit retrofit= RetrofitUtils.getRetrofitInstance(seasonId,episodeSid);
+        ApiService service = retrofit.create(ApiService.class);
+        Call<VideoM3U8PathBean> call = service.getVideoWithApi();
+        call.enqueue(callback);
+    }
+
 }

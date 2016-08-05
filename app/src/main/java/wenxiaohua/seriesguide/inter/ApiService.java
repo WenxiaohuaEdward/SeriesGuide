@@ -8,6 +8,7 @@ import wenxiaohua.seriesguide.bean.SearchFragmentHotWord;
 import wenxiaohua.seriesguide.bean.SearchInfo;
 import wenxiaohua.seriesguide.bean.VideoDetailCommentInfo;
 import wenxiaohua.seriesguide.bean.VideoDetailInfo;
+import wenxiaohua.seriesguide.bean.VideoM3U8PathBean;
 
 /**
  * Created by hexun on 2016/6/13.
@@ -41,5 +42,6 @@ public interface ApiService {
             @Query("rows") String rows,
             @Query ("mark") String mark
     );
-
+    @POST("/video/findM3u8ByEpisodeSid")
+    Call<VideoM3U8PathBean> getVideoWithApi();
 }

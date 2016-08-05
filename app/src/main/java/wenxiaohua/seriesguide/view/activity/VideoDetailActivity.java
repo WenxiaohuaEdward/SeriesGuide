@@ -1,35 +1,37 @@
 package wenxiaohua.seriesguide.view.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
-import com.baidu.cyberplayer.core.BVideoView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import wenxiaohua.seriesguide.R;
 import wenxiaohua.seriesguide.bean.VideoDetailInfo;
+import wenxiaohua.seriesguide.bean.VideoM3U8PathBean;
 import wenxiaohua.seriesguide.event.Event;
 import wenxiaohua.seriesguide.impl.IVideoDetailView;
 import wenxiaohua.seriesguide.presenter.BasePresenter;
 import wenxiaohua.seriesguide.presenter.VideoDetailPresenter;
-import wenxiaohua.seriesguide.utils.SeasonDBUtils;
+import wenxiaohua.seriesguide.utils.PicassoUtils;
 import wenxiaohua.seriesguide.view.adapter.FragmentAdapter;
 import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailCommentFragment;
 import wenxiaohua.seriesguide.view.fragment.videodetail.VideoDetailReviewFragment;
+import wenxiaohua.seriesguide.view.listener.RecyclerViewItemClickListener;
 
 /**
  * Created by hexun on 2016/6/15.
@@ -42,47 +44,41 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     ViewPager video_detail_vp;
     @Bind(R.id.video_detail_tabs)
     TabLayout video_detail_tabs;
-    @Bind(R.id.video_view)
-    BVideoView video_view;
 
+    @Bind(R.id.video_detail_play_bt)
+    Button video_detail_play_bt;
+    @Bind(R.id.video_detail_cover)
+    ImageView video_detail_cover;
 
+    @Bind(R.id.video_detail_vv)
+    VideoView mvdView;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
     private String seasonId;
     private VideoDetailInfo.DataBean data;
     VideoDetailReviewFragment videoDetailReviewFragment;
+    String strPath = "";
 
-
-    /**
-     * 播放状态
-     */
-    private enum PLAYER_STATUS {
-        PLAYER_IDLE, PLAYER_PREPARING, PLAYER_PREPARED,
-    }
-    private PLAYER_STATUS mPlayerStatus = PLAYER_STATUS.PLAYER_IDLE;
-    private String mVideoSource; //播放url
-    private final int EVENT_PLAY = 0;
-    private final int UI_EVENT_UPDATE_CURRPOSITION = 1;
-    private final Object SYNC_Playing = new Object();
-    /**
-     * 记录播放位置
-     */
-    private int mLastPos = 0;
+    VideoDetailPresenter videoDetailPresenter;
     private String TAG = "VideoDetailActivity";
-    private HandlerThread mHandlerThread;
-    private EventHandler mEventHandler;
-    SeasonDBUtils mSeasonDBUtils;
+
+
     @Override
     protected void initView() {
         video_detail_toolbar.setTitle(getIntent().getStringExtra("seasonTitle"));
         seasonId = getIntent().getStringExtra("seasonId");
-        /**
-         * 开启后台事件处理线程
-         */
-        mHandlerThread = new HandlerThread("event handler thread",
-                android.os.Process.THREAD_PRIORITY_BACKGROUND);
-        mHandlerThread.start();
-        mEventHandler = new EventHandler(mHandlerThread.getLooper());
+        video_detail_play_bt.requestFocus();
+        video_detail_play_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(videoDetailPresenter!=null){
+                    if( data.getSeasonDetail()!=null) {
+                        videoDetailPresenter.getVideo(VideoDetailActivity.this, seasonId, data.getSeasonDetail().getPlayUrlList().get( data.getSeasonDetail().getPlayUrlList().size()-1).getEpisodeSid());
+                    }
+                }
+
+            }
+        });
         EventBus.getDefault().register(this);
     }
     @Override
@@ -91,16 +87,37 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         EventBus.getDefault().unregister(this);
     }
 
+    private  void  playVideo(String strPath) {
+        mvdView.setVisibility(View.VISIBLE);
+        video_detail_cover.setVisibility(View.GONE);
+        video_detail_play_bt.setVisibility(View.GONE);
+        Uri uri = Uri.parse(strPath);
+        mvdView.setVideoURI(uri);   // mvdView是一个videoView控件
+        mvdView.setMediaController(new MediaController(this));
+//        mvdView.requestFocus();
+        mvdView.start();
+    }
 
+    private void stopPlay() {
+        mvdView.stopPlayback();
+    }
 
     @Override
     protected void initData() {
-
-
+        mvdView.setVisibility(View.GONE);
+        video_detail_cover.setVisibility(View.VISIBLE);
+        video_detail_play_bt.setVisibility(View.VISIBLE);
         videoDetailReviewFragment= new VideoDetailReviewFragment();
         Bundle bundleReview =  new Bundle();
         bundleReview.putString("seasonId", seasonId);
         videoDetailReviewFragment.setArguments(bundleReview);
+        videoDetailReviewFragment.setReviewNumOnItemClickListener(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                videoDetailPresenter.getVideo(VideoDetailActivity.this, seasonId, data.getSeasonDetail().getPlayUrlList().get(postion ).getEpisodeSid());
+
+            }
+        });
         fragmentList.add(videoDetailReviewFragment);
         VideoDetailCommentFragment videoDetailCommentFragment = new VideoDetailCommentFragment();
         Bundle bundleComment =  new Bundle();
@@ -119,7 +136,8 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
         video_detail_vp.setCurrentItem(0, true);
         video_detail_vp.setOffscreenPageLimit(2);
         video_detail_tabs.setupWithViewPager(video_detail_vp);//将TabLayout和ViewPager关联起来
-        VideoDetailPresenter videoDetailPresenter = (VideoDetailPresenter)mPresenter;
+
+        videoDetailPresenter = (VideoDetailPresenter)mPresenter;
         videoDetailPresenter.getVideoDetail(getApplicationContext(),seasonId);
     }
 
@@ -143,70 +161,26 @@ public class VideoDetailActivity extends BaseActivity implements IVideoDetailVie
     @Override
     public void getVideoDetailWithView(VideoDetailInfo.DataBean data) {
         this.data = data;
+        PicassoUtils.getPicassoInstance(VideoDetailActivity.this, data.getSeasonDetail().getCover(), video_detail_cover);
 
+        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(), data.getSeasonDetail().getCover(), data.getSeasonDetail().getTitle(), data.getSeasonDetail().getScore() + "", data.getSeasonDetail().getUpdateinfo(), data);
 
-
-        videoDetailReviewFragment.setReviewData(data.getSeasonDetail().getBrief(),data.getSeasonDetail().getCover(), data.getSeasonDetail().getTitle(),data.getSeasonDetail().getScore()+"", data.getSeasonDetail().getUpdateinfo(),data);
-//        if (data!=null&&!data.getSeasonDetail().getPlayUrlList().isEmpty()) {
-//            video_view.setVideoPath(data.getSeasonDetail().getPlayUrlList().get(0).getPlayLink());
-//        }
     }
 
-    class EventHandler extends Handler {
-        public EventHandler(Looper looper) {
-            super(looper);
-        }
+    @Override
+    public void getVideoPathWithView(List<VideoDetailInfo.DataBean.SeasonDetailBean.PlayUrlListBean> playUrlList) {
 
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case EVENT_PLAY:
-                    /**
-                     * 如果已经播放了，等待上一次播放结束
-                     */
-                    if (mPlayerStatus != PLAYER_STATUS.PLAYER_IDLE) {
-                        synchronized (SYNC_Playing) {
-                            try {
-                                SYNC_Playing.wait();
-                                Log.v(TAG, "wait player status to idle");
-                            } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+    }
 
-                    /**
-                     * 设置播放url
-                     */
-                    mVideoSource = (String) msg.obj ;
-                    video_view.setVideoPath(mVideoSource);
-
-                    /**
-                     * 续播，如果需要如此
-                     */
-                    if (mLastPos > 0) {
-
-                        video_view.seekTo(mLastPos);
-                        mLastPos = 0;
-                    }
-
-                    /**
-                     * 显示或者隐藏缓冲提示
-                     */
-                    video_view.showCacheInfo(true);
-
-                    /**
-                     * 开始播放
-                     */
-                    video_view.start();
-                    mPlayerStatus = PLAYER_STATUS.PLAYER_PREPARING;
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    public void getVideoWithView(VideoM3U8PathBean.DataBean data) {
+        if (data.getM3u8()!=null) {
+            strPath = data.getM3u8().getUrl();
+            playVideo(strPath);
+            videoDetailReviewFragment.setVideoUrl(strPath);
         }
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showHistory(Event.SeriesGuideSeasonEvent seasonEvent){

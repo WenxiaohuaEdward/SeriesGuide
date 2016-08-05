@@ -3,8 +3,6 @@ package wenxiaohua.seriesguide;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.umeng.socialize.PlatformConfig;
-
 import greendao.DaoMaster;
 import greendao.DaoSession;
 import wenxiaohua.seriesguide.constant.DBConstants;
@@ -26,14 +24,7 @@ public class SeriesGuideApplication extends Application {
 //        setUmengShareAppKey();
     }
 
-    private void setUmengShareAppKey() {
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-        //微信 appid appsecret
-        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
-        //新浪微博 appkey appsecret
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
-        // QQ和Qzone appid appkey
-    }
+
 
     private void setupDatabase() {
         // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。

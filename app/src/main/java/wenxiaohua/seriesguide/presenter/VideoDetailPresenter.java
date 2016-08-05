@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import wenxiaohua.seriesguide.bean.VideoDetailInfo;
+import wenxiaohua.seriesguide.bean.VideoM3U8PathBean;
 import wenxiaohua.seriesguide.event.Event;
 import wenxiaohua.seriesguide.impl.IVideoDetailView;
 import wenxiaohua.seriesguide.model.VideoDetailModel;
@@ -33,6 +34,7 @@ public class VideoDetailPresenter extends BasePresenter<IVideoDetailView> {
                 if (response == null || response.body() == null || response.body().getData() == null||mView==null)
                     return;
                 mView.getVideoDetailWithView(response.body().getData());
+                mView.getVideoPathWithView(response.body().getData().getSeasonDetail().getPlayUrlList());
                 mSeasonDBUtils = SeasonDBUtils.getInstance(context);
                 //进行数据库的操作
                 if(mSeasonDBUtils.getSeasonWithId((long) response.body().getData().getSeasonDetail().getId())!=null&&!mSeasonDBUtils.getSeasonWithId((long) response.body().getData().getSeasonDetail().getId()).isEmpty()){
@@ -53,6 +55,23 @@ public class VideoDetailPresenter extends BasePresenter<IVideoDetailView> {
             }
         });
 
+    }
+
+    public void getVideo(final Context context ,String seasonId,String episodeSid){
+        mIVideoDetailModel.getVideoWithModel(seasonId, episodeSid, new Callback<VideoM3U8PathBean>() {
+
+            @Override
+            public void onResponse(Call<VideoM3U8PathBean> call, Response<VideoM3U8PathBean> response) {
+                if (response == null || response.body() == null || response.body().getData() == null||mView==null)
+                    return;
+                mView.getVideoWithView(response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<VideoM3U8PathBean> call, Throwable t) {
+
+            }
+        });
     }
 
 }

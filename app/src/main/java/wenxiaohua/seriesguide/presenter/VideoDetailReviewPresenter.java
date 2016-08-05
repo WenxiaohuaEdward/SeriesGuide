@@ -32,4 +32,5 @@ public class VideoDetailReviewPresenter extends BasePresenter<IVideoDetailReview
             mView.getSeasonWithId(seriesGuideSeasonList);
         }
     }
-    }
+
+}

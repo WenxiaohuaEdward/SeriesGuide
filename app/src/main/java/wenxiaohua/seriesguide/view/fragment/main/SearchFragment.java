@@ -77,7 +77,8 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
                 mSearchStatus = SEARCH_STATUS.SEARCH_HOTWORD;
                 childClickText = list.get(groupPosition).values.get(childPosition);
 //                searchFragmentPresenter.getSearchData(page, rows,childClickText,"");
-                Intent clickTextIntent =  new Intent(getActivity(),VideoListActivity.class);
+
+                Intent clickTextIntent = new Intent(getActivity(), VideoListActivity.class);
                 clickTextIntent.putExtra("videoTypeTitle", childClickText);
                 getActivity().startActivity(clickTextIntent);
                 return true;
@@ -87,42 +88,44 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
         fragment_search_input_edittext.setOnKeyListener(new View.OnKeyListener() {//输入完后按键盘上的搜索键【回车键改为了搜索键】
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {//修改回车键功能
-                // 先隐藏键盘
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {//修改回车键功能
+                    // 先隐藏键盘
                     ((InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(
                                     getActivity()
                                             .getCurrentFocus()
                                             .getWindowToken(),
                                     InputMethodManager.HIDE_NOT_ALWAYS);
-                    //显示最近搜索内容
-                    if(resultList.get(1)!=null) {
-                        if (resultList.get(1).values.size()>=5){
-                            resultList.get(1).values.remove(resultList.get(1).values.size()-1);
+                    if (resultList != null) {
+                        //显示最近搜索内容
+                        if (resultList.get(1) != null) {
+                            if (resultList.get(1).values.size() >= 5) {
+                                resultList.get(1).values.remove(resultList.get(1).values.size() - 1);
+                            }
+                            resultList.get(1).values.add(0, fragment_search_input_edittext.getText().toString());
                         }
-                        resultList.get(1).values.add(0,fragment_search_input_edittext.getText().toString());
-                    }
-                    searchFragmentElvAdapter.setResultList(resultList);
-                    searchFragmentElvAdapter.notifyDataSetChanged();
+                        searchFragmentElvAdapter.setResultList(resultList);
+                        searchFragmentElvAdapter.notifyDataSetChanged();
 
-                    mSearchStatus = SEARCH_STATUS.SEARCH_EDITTEXT;
-                    SharedPreferences sp = getActivity().getSharedPreferences(SPConstants.SP_NAME, getActivity().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    for (int i = 0;i<resultList.get(1).values.size();i++){
-                        editor.putString(SPConstants.SEARCH_CLICK+"_"+i, resultList.get(1).values.get(i));
-                    }
-                    editor.commit();
-                    //跳转到搜索结果界面
-                    Intent searchTextIntent =  new Intent(getActivity(),VideoListActivity.class);
-                    searchTextIntent.putExtra("videoTypeTitle", fragment_search_input_edittext.getText().toString());
-                    getActivity().startActivity(searchTextIntent);
+                        mSearchStatus = SEARCH_STATUS.SEARCH_EDITTEXT;
+                        SharedPreferences sp = getActivity().getSharedPreferences(SPConstants.SP_SEARCH_CLICK_NAME, getActivity().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        for (int i = 0; i < resultList.get(1).values.size(); i++) {
+                            editor.putString(SPConstants.SEARCH_CLICK + "_" + i, resultList.get(1).values.get(i));
+                        }
+                        editor.commit();
+                        //跳转到搜索结果界面
+                        Intent searchTextIntent = new Intent(getActivity(), VideoListActivity.class);
+                        searchTextIntent.putExtra("videoTypeTitle", fragment_search_input_edittext.getText().toString());
+                        getActivity().startActivity(searchTextIntent);
 //                    searchFragmentPresenter.getSearchData(page, rows, fragment_search_input_edittext.getText().toString(),"");
 
 
-                    return true;
+                        return true;
+                    }
+                    }
+                    return false;
                 }
-                return false;
-            }
         });
     }
 
@@ -160,8 +163,8 @@ public class SearchFragment extends BaseFragment implements ISearchFragmentView{
         resultList.add(hotIndexBean);
 
         for (int i = 0;i<5;i++) {
-            if (!"".equals(getActivity().getSharedPreferences(SPConstants.SP_NAME, getActivity().MODE_PRIVATE).getString(SPConstants.SEARCH_CLICK+"_"+i, ""))){
-                clickTextListFromSP.add(getActivity().getSharedPreferences(SPConstants.SP_NAME, getActivity().MODE_PRIVATE).getString(SPConstants.SEARCH_CLICK+"_"+i, ""));
+            if (!"".equals(getActivity().getSharedPreferences(SPConstants.SP_SEARCH_CLICK_NAME, getActivity().MODE_PRIVATE).getString(SPConstants.SEARCH_CLICK+"_"+i, ""))){
+                clickTextListFromSP.add(getActivity().getSharedPreferences(SPConstants.SP_SEARCH_CLICK_NAME, getActivity().MODE_PRIVATE).getString(SPConstants.SEARCH_CLICK+"_"+i, ""));
             }
         }
         newIndexBean = new IndexBean();

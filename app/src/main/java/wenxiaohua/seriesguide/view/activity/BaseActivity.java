@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.umeng.analytics.MobclickAgent;
-
 import butterknife.ButterKnife;
 import wenxiaohua.seriesguide.impl.IBaseView;
 import wenxiaohua.seriesguide.inter.IBase;
@@ -43,14 +41,12 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
     }
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getSimpleName());
-        MobclickAgent.onResume(this);
+
     }
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
-        MobclickAgent.onPause(this);
+
     }
     public void setActionBar() {
 
@@ -83,6 +79,14 @@ public abstract class BaseActivity< T extends BasePresenter<IBaseView>> extends 
             mPresenter.detachView();
             mPresenter = null;
         }
+    }
+    /**
+     * 是否设置沉浸式
+     *
+     * @return
+     */
+    protected boolean isSetStatusBar() {
+        return false;
     }
     /**
      * 初始化 View。

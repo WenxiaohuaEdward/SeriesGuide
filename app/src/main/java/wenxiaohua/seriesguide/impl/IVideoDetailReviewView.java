@@ -9,4 +9,6 @@ import greendao.SeriesGuideSeason;
  */
 public interface IVideoDetailReviewView extends IBaseView{
     void  getSeasonWithId(List<SeriesGuideSeason> seriesGuideSeasons);
+
+
 }

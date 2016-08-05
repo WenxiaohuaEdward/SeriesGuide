@@ -31,23 +31,34 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
         <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="200dp">
 
-        <include
-            android:id="@+id/layout_play"
-            layout="@layout/play_item" />
 
-        <include
-            android:id="@+id/layout_info"
-            layout="@layout/play_info"
-            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/video_detail_cover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"/>
+        <Button
+            android:id="@+id/video_detail_play_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@mipmap/ic_launcher"/>
+        <VideoView
+            android:id="@+id/video_detail_vv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"/>
     </FrameLayout>
+
 
     <android.support.design.widget.TabLayout
         android:id="@+id/video_detail_tabs"

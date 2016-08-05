@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'newlens'
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.3"
@@ -21,14 +21,19 @@ android {
     sourceSets{
         main{
             java.srcDirs = ['src/main/java' , 'src/main/java-gen']
+            jniLibs.srcDirs = ['libs']
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-}
 
+
+}
+repositories {
+    mavenCentral()
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -46,19 +51,8 @@ dependencies {
     compile 'com.facebook.rebound:rebound:0.3.8'
     compile 'com.facebook.fresco:fresco:0.8.1+'
     compile 'org.greenrobot:greendao:2.2.1'
+    compile "com.networkbench.newlens.agent.android:nbs.newlens.agent:2.4.3"
     compile files('libs/cyberplayer-sdk.jar')
-    compile files('libs/SocialSDK_QQZone_3.jar')
-    compile files('libs/SocialSDK_Sina.jar')
-    compile files('libs/SocialSDK_tencentWB_1.jar')
-    compile files('libs/SocialSDK_tencentWB_2.jar')
-    compile files('libs/SocialSDK_tencentWB_3.jar')
-    compile files('libs/SocialSDK_WeiXin_1.jar')
-    compile files('libs/SocialSDK_WeiXin_2.jar')
-    compile files('libs/umeng_social_sdk.jar')
-    compile files('libs/weiboSDKCore_3.1.4.jar')
-    compile files('libs/umeng-update-v2.6.0.1.jar')
-    compile files('libs/umeng-analytics-v5.6.4.jar')
-    compile files('libs/mta-sdk-1.6.2.jar')
-    compile files('libs/open_sdk_r5509.jar')
+
     compile project(':greendaogenerator')
 }
