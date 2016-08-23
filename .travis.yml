@@ -11,13 +11,12 @@ android:
     - platform-tools
     - build-tools-23.0.3
     - android-22
-    - extra-android-m2repository
     - extra-android-support
     - sys-img-armeabi-v7a-android-22
 before_script:
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
     - emulator -avd test -no-skin -no-audio -no-window &
-    - android-wait-for-emulator   # 该项会等待虚拟机启动成功在执行后面的命令
+    - android-wait-for-emulator   
     - adb shell input keyevent 82 &
 script:
     - ./gradlew :lib:createDebugAndroidTestCoverageReport --info --stacktrace
