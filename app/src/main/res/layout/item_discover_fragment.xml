@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/color_f5f5f5"
     android:layout_height="match_parent">
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/imageview_discover_width"
+        android:layout_height="@dimen/imageview_discover_height"
+        android:layout_marginLeft="@dimen/marginleft"
+        android:layout_marginRight="@dimen/marginright"
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/margintop"
         android:id="@+id/fragment_discover_cover_iv"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/imageview_discover_width"
         android:layout_height="wrap_content"
+        android:textColor="@color/color_444444"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:layout_marginTop="@dimen/margintop"
+        android:layout_marginBottom="@dimen/marginbottom"
+        android:textSize="@dimen/textsize_standard"
         android:id="@+id/fragment_discover_title_tv"/>
      <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+         android:layout_width="@dimen/imageview_discover_width"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:layout_gravity="center"
+         android:singleLine="true"
+         android:layout_marginBottom="@dimen/marginbottom"
+         android:textColor="@color/color_999999"
+         android:textSize="@dimen/textsize_small"
         android:id="@+id/fragment_discover_schedule_tv"/>
 </LinearLayout>

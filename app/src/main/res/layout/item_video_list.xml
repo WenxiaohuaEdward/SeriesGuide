@@ -3,34 +3,52 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_width="@dimen/imageview_discover_width"
+        android:layout_height="@dimen/imageview_discover_height"
+        android:layout_marginRight="@dimen/marginright"
+        android:layout_marginBottom="@dimen/marginbottom"
+        android:layout_marginLeft="@dimen/marginleft"
+        android:layout_marginTop="@dimen/margintop"
         android:id="@+id/item_video_type_iv"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/marginright"
+        android:layout_marginBottom="@dimen/marginbottom"
+        android:layout_marginLeft="@dimen/marginleft"
+        android:layout_marginTop="@dimen/margintop"
+        >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/item_video_type_title"/>
+            android:id="@+id/item_video_type_title"
+            android:textSize="@dimen/textsize_big"
+            android:textColor="@color/color_444444"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/item_video_type_movie_review"/>
+            android:id="@+id/item_video_type_movie_review"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="@dimen/textsize_small"
+            android:textColor="@color/color_999999"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_video_type_commentSum"/>
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_video_type_commentSum"
+            android:textSize="@dimen/textsize_small"
+            android:textColor="@color/color_999999"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_video_type_watchSum"/>
+                android:id="@+id/item_video_type_watchSum"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/color_999999"/>
         </LinearLayout>
 
     </LinearLayout>

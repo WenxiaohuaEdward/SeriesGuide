@@ -11,18 +11,13 @@ import java.util.List;
 
 import greendao.SeriesGuideSeason;
 import wenxiaohua.seriesguide.R;
+import wenxiaohua.seriesguide.utils.FormatTimeUtils;
 import wenxiaohua.seriesguide.utils.PicassoUtils;
 
 /**
  * Created by hexun on 2016/6/12.
  */
 public class LikeFragmentCacheListAdapter extends BaseAdapter {
-    private ImageView item_like_cache_fragment_cover_iv;
-    private TextView item_like_cache_fragment_updateschedule_tv;
-    private TextView item_like_cache_fragment_title_tv;
-    private TextView item_like_cache_fragment_watchschedule_tv;
-
-
 
     private final Context context;
 
@@ -75,8 +70,8 @@ public class LikeFragmentCacheListAdapter extends BaseAdapter {
         }else{
             holder.item_like_cache_fragment_cover_iv.setImageResource(R.mipmap.ic_launcher);
         }
-        holder.item_like_cache_fragment_updateschedule_tv.setText(seriesGuideSeason.getTitle());
-        holder.item_like_cache_fragment_title_tv.setText(seriesGuideSeason.getUpdateTime()+"");
+        holder.item_like_cache_fragment_title_tv.setText(seriesGuideSeason.getTitle());
+        holder. item_like_cache_fragment_updateschedule_tv.setText(FormatTimeUtils.getInstance(context).formatTime(seriesGuideSeason.getUpdateTime()));
         holder.item_like_cache_fragment_watchschedule_tv.setText(seriesGuideSeason.getCat());
         return convertView;
     }

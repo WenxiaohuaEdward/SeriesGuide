@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+<RelativeLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/imageview_discover_width"
+        android:layout_height="@dimen/imageview_discover_height"
         android:id="@+id/item_like_cache_fragment_cover_iv"
-        />
-    <TextView
-        android:id="@+id/item_like_cache_fragment_updateschedule_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/item_like_cache_fragment_cover_iv"
-        android:layout_alignTop="@id/item_like_cache_fragment_cover_iv"
+        android:scaleType="fitXY"
         />
     <TextView
         android:id="@+id/item_like_cache_fragment_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:textColor="@color/color_444444"
+        android:textSize="@dimen/textsize_big"
+        android:layout_marginTop="@dimen/margintop"
         android:layout_below="@id/item_like_cache_fragment_cover_iv"
         />
+    <TextView
+        android:id="@+id/item_like_cache_fragment_updateschedule_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_999999"
+        android:textSize="@dimen/textsize_small"
+        android:layout_marginTop="@dimen/margintop"
+        android:layout_below="@id/item_like_cache_fragment_title_tv"
+        />
+
     <TextView
         android:id="@+id/item_like_cache_fragment_watchschedule_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/item_like_cache_fragment_title_tv"
+        android:textColor="@color/color_999999"
+        android:textSize="@dimen/textsize_small"
+        android:layout_marginTop="@dimen/margintop"
+        android:layout_below="@id/item_like_cache_fragment_updateschedule_tv"
         />
 </RelativeLayout>
+</LinearLayout>

@@ -39,8 +39,9 @@ public class SearchFragmentPresenter extends BasePresenter<ISearchFragmentView> 
         mISearchFragmentModel.getHotWordWithModel(new Callback<SearchFragmentHotWord>() {
             @Override
             public void onResponse(Call<SearchFragmentHotWord> call, Response<SearchFragmentHotWord> response) {
-                if (response == null || response.body() == null || response.body().getData() == null)
+                if (response == null || response.body() == null || response.body().getData() == null) {
                     return;
+                }
                 mView.getHotWordWithView(response.body().getData());
             }
 

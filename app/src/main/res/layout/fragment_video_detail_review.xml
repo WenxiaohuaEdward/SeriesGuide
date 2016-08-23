@@ -3,6 +3,7 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/fragment_video_detail_review_nsv"
         android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"

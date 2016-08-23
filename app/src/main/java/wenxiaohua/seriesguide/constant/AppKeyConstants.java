@@ -10,4 +10,10 @@ public class AppKeyConstants {
     public final static String  QQ_SHARE_APPKEY    ="1105517410";
     public final static String  QQ_SHARE_VALUE    ="6pL5VKcNiyVtrF7u";
     public final static String  TINGYUN_APPKEY    ="ec09b9fb4b6149bf8aa0897438c5a7e9";
+    public final static String  WANDOUJIA_ADS_APPKEY    ="100042920";
+    public final static String  WANDOUJIA_ADS_SECRET_KEY    ="8b4b72911f43430a5fe4d8afc71ba764";
+    public final static String  WANDOUJIA_ADS_ID    ="a0473741689b652a790cf3bbff4d2ab1";
+
+
+
 }

@@ -1,10 +1,13 @@
 package wenxiaohua.seriesguide.view.fragment.videodetail;
 
 import android.app.DownloadManager;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -43,6 +46,8 @@ public class VideoDetailReviewFragment extends BaseFragment implements View.OnCl
     private  String seasonId ="";
     @Bind(R.id.fragment_video_detail_review_title)
     TextView fragment_video_detail_review_title;
+    @Bind(R.id.fragment_video_detail_review_nsv)
+    NestedScrollView fragment_video_detail_review_nsv;
     @Bind(R.id.fragment_video_detail_review_content)
     TextView fragment_video_detail_review_content;
     @Bind(R.id.fragment_video_detail_review_grade)
@@ -83,8 +88,15 @@ public class VideoDetailReviewFragment extends BaseFragment implements View.OnCl
             mVideoDetailReviewNumAdapter.setOnItemClickListener(mItemClickListener);
         }
         EventBus.getDefault().register(this);
-
+        fragment_video_detail_listNum_rv.setFocusable(false);
     }
+
+    @Override
+    public void onResume() {
+        fragment_video_detail_review_nsv.smoothScrollTo(0, 0);
+        super.onResume();
+    }
+
     /**
      * 设置Item点击监听
      *
@@ -163,34 +175,42 @@ public class VideoDetailReviewFragment extends BaseFragment implements View.OnCl
         }else if(v.getId()== fragment_video_detail_review_cache.getId()){
             if(isCacheExist) {
                 videoDetailReviewPresenter.deleteSeason(getActivity(),seasonId);
-                fragment_video_detail_review_cache.setText("缓存"); DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(getActivity().DOWNLOAD_SERVICE);
+                fragment_video_detail_review_cache.setText("缓存");
+                String filePath =
+                        null;
+                try {
+                    filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/"+ HexUtil.getEncryptedPwd(mVideoUrl) + ".mp4";
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                if(new File(filePath).exists()){
+                    new File(filePath).delete();
+
+                }
+                isCacheExist = false;
+            }else{
+
+                DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(getActivity().DOWNLOAD_SERVICE);
 
                 if(mVideoUrl!=null&&!TextUtils.isEmpty(mVideoUrl)) {
                     String apkUrl = mVideoUrl;
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
                     try {
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, HexUtil.getEncryptedPwd(apkUrl) + ".mp4");
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/"+HexUtil.getEncryptedPwd(apkUrl) + ".mp4");
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-                    }
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+//                    }
                     request.setMimeType("application/vnd.android.package-archive");
-                    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE);
                     long downloadId = downloadManager.enqueue(request);
                 }
-                isCacheExist = false;
-            }else{
-                String filePath =
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/" +"com.hexun.caidao.apk";
-                if(new File(filePath).exists()){
-                    new File(filePath).delete();
-
-                }
-
                 videoDetailReviewPresenter.addSeason(getActivity(), "cache", videoDetailInfo);
                 fragment_video_detail_review_cache.setText("已缓存");
                 isCacheExist = true;
@@ -199,7 +219,21 @@ public class VideoDetailReviewFragment extends BaseFragment implements View.OnCl
         }
 
     }
-
+    /**
+     * make true current connect service is wifi
+     * @param mContext
+     * @return
+     */
+    private static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
 
 
 

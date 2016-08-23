@@ -45,3 +45,9 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class com.umeng.socialize.* {*;}
+
+
+
+-keep class com.baidu.** {
+    public protected *;
+}

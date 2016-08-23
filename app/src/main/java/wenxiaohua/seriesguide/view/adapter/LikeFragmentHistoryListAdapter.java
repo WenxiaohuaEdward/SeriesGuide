@@ -3,13 +3,15 @@ package wenxiaohua.seriesguide.view.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import greendao.SeriesGuideSeason;
 import wenxiaohua.seriesguide.R;
+import wenxiaohua.seriesguide.utils.FormatTimeUtils;
 import wenxiaohua.seriesguide.utils.PicassoUtils;
 
 /**
@@ -17,14 +19,14 @@ import wenxiaohua.seriesguide.utils.PicassoUtils;
  */
 public class LikeFragmentHistoryListAdapter extends android.widget.BaseAdapter {
     private final Context context;
-    private ImageView item_like_history_fragment_cover_iv;
-    private TextView item_like_history_fragment_title;
-    private TextView item_like_history_fragment_updatetime;
-    private TextView item_like_history_fragment_schedule;
-    private TextView item_like_history_fragment_lasttime;
+
+
+
+
     private List<SeriesGuideSeason> seriesGuideSeasonList  = new ArrayList<>();
     public LikeFragmentHistoryListAdapter(Context context) {
         this.context = context;
+
     }
 
     public List<SeriesGuideSeason> getSeriesGuideSeasonList() {
@@ -62,6 +64,8 @@ public class LikeFragmentHistoryListAdapter extends android.widget.BaseAdapter {
             holder.item_like_history_fragment_updatetime = (TextView) convertView.findViewById( R.id.item_like_history_fragment_updatetime);
             holder.item_like_history_fragment_schedule = (TextView) convertView.findViewById(R.id.item_like_history_fragment_schedule);
             holder.item_like_history_fragment_lasttime = (TextView) convertView.findViewById(R.id.item_like_history_fragment_lasttime);
+            holder.item_like_history_fragment_continue_to_watch = (TextView) convertView.findViewById(R.id.item_like_history_fragment_continue_to_watch);
+
             convertView.setTag(holder);
         }else{
             holder= (ViewHolder)convertView.getTag();
@@ -73,7 +77,7 @@ public class LikeFragmentHistoryListAdapter extends android.widget.BaseAdapter {
             holder.item_like_history_fragment_cover_iv.setImageResource(R.mipmap.ic_launcher);
         }
         holder.item_like_history_fragment_title.setText(seriesGuideSeason.getTitle());
-        holder.item_like_history_fragment_updatetime.setText(seriesGuideSeason.getUpdateTime()+"");
+        holder.item_like_history_fragment_updatetime.setText(FormatTimeUtils.getInstance(context).formatTime(seriesGuideSeason.getUpdateTime()));
         holder.item_like_history_fragment_lasttime.setText(seriesGuideSeason.getBrief());
         return convertView;
     }
@@ -83,5 +87,8 @@ public class LikeFragmentHistoryListAdapter extends android.widget.BaseAdapter {
         public TextView item_like_history_fragment_updatetime ;
         public TextView item_like_history_fragment_schedule ;
         public TextView item_like_history_fragment_lasttime ;
+        public TextView item_like_history_fragment_continue_to_watch;
     }
+
+
 }

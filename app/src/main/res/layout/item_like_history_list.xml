@@ -5,40 +5,52 @@
     android:layout_height="match_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginBottom="15dp"
-    android:layout_marginTop="15dp">
+    android:layout_height="@dimen/list_height"
+    android:layout_marginRight="@dimen/marginright"
+    android:layout_marginBottom="@dimen/marginbottom"
+    android:layout_marginLeft="@dimen/marginleft"
+    android:layout_marginTop="@dimen/margintop"
+   >
     <ImageView
         android:id="@+id/item_like_history_fragment_cover_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginRight="15dp"
+        android:layout_width="@dimen/imageview_discover_width"
+        android:layout_height="@dimen/imageview_discover_height"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/marginright"
+
         />
     <RelativeLayout
         android:id="@+id/item_like_history_fragment_content_rl"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/item_like_history_fragment_cover_iv"
         android:layout_toRightOf="@id/item_like_history_fragment_cover_iv"
         >
     <TextView
         android:id="@+id/item_like_history_fragment_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/textsize_big"
+        android:textColor="@color/color_444444"
+        android:layout_marginBottom="@dimen/marginbottom"
+        android:layout_marginTop="@dimen/margintop"
         />
     <TextView
         android:id="@+id/item_like_history_fragment_updatetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:textColor="@color/color_999999"
+        android:layout_marginBottom="@dimen/marginbottom"
+        android:layout_marginTop="@dimen/margintop"
         android:layout_below="@id/item_like_history_fragment_title"
         />
     <TextView
         android:id="@+id/item_like_history_fragment_schedule"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:textColor="@color/color_999999"
+        android:layout_marginBottom="@dimen/marginbottom"
+        android:layout_marginTop="@dimen/margintop"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_like_history_fragment_updatetime"
         />
@@ -46,34 +58,40 @@
         android:id="@+id/item_like_history_fragment_lasttime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/color_999999"
+        android:layout_marginTop="@dimen/margintop"
+        android:layout_marginBottom="@dimen/marginbottom"
         android:layout_below="@id/item_like_history_fragment_schedule"
         />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_like_history_fragment_continue_to_watch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="继续观看"
+        android:layout_marginLeft="@dimen/marginleft"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/marginright"
+        android:gravity="center"
+
+        />
+
     <View
         android:id="@+id/item_like_history_fragment_line"
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="#e6e6e6"
-        android:layout_toRightOf="@id/item_like_history_fragment_content_rl"
-        android:layout_marginLeft="15dp"
+        android:background="@color/color_e6e6e6"
+        android:layout_marginLeft="@dimen/marginleft"
+        android:layout_toLeftOf="@id/item_like_history_fragment_continue_to_watch"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="继续观看"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        android:layout_toRightOf="@id/item_like_history_fragment_line"
-        />
-
-
 </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="#e6e6e6"
+        android:layout_marginLeft="@dimen/marginleft"
+        android:layout_marginRight="@dimen/marginright"
+        android:background="@color/color_e6e6e6"
         />
 </LinearLayout>
 

@@ -13,6 +13,9 @@ android {
 
     }
     buildTypes {
+        debug{
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -24,19 +27,26 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
 
+
 }
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.jakewharton:butterknife:7.0.0'
     compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.1'
@@ -51,8 +61,40 @@ dependencies {
     compile 'com.facebook.rebound:rebound:0.3.8'
     compile 'com.facebook.fresco:fresco:0.8.1+'
     compile 'org.greenrobot:greendao:2.2.1'
-    compile "com.networkbench.newlens.agent.android:nbs.newlens.agent:2.4.3"
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.4.3'
+    compile 'com.facebook.rebound:rebound:0.3.6'
+    compile files('libs/Baidu_MobAds_SDK.jar')
     compile files('libs/cyberplayer-sdk.jar')
-
     compile project(':greendaogenerator')
+    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'org.robolectric:shadows-support-v4:3.0'
+    //    androidTestCompile 'com.android.support.test:runner:0.2'
+    //    androidTestCompile 'com.android.support.test:rules:0.2'
+    //    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.1'
+//    androidTestCompile 'com.android.support:support-annotations:23.1.0'
+    androidTestCompile ('com.android.support.test:runner:0.4.1') {
+        // Necessary if your app targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    // Set this dependency to use JUnit 4 rules
+    androidTestCompile ('com.android.support.test:rules:0.4.1') {
+        // Necessary if your app targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    // Set this dependency to build and run Espresso tests
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
+        // Necessary if your app targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+        // Necessary if your app targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
 }

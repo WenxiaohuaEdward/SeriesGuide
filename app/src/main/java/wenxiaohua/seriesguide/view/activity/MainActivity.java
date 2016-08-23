@@ -44,11 +44,12 @@ public class MainActivity extends BaseActivity implements IMainView, View.OnClic
     RadioButton main_search_radiobutton;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> titleList =new ArrayList<String>();
-
+    private String INTERSTITIAL = "a0473741689b652a790cf3bbff4d2ab1";
 
 
     @Override
     protected void initView() {
+
         //听云APP初始化
         NBSAppAgent.setLicenseKey(AppKeyConstants.TINGYUN_APPKEY).withLocationServiceEnabled(true).start(this.getApplicationContext());
         fragmentList.add(new LikeFragment());
@@ -83,11 +84,11 @@ public class MainActivity extends BaseActivity implements IMainView, View.OnClic
         main_discover_radiobutton.setOnClickListener(this);
         main_search_radiobutton.setOnClickListener(this);
         main_viewpager.setNoScroll(true);
-
 //        checkVersion();
 
 
     }
+
 //
 //    private void checkVersion() {
 //        try {

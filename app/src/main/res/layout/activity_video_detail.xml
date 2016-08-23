@@ -34,11 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/video_detail_cover"
@@ -49,15 +47,15 @@
             android:id="@+id/video_detail_play_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+
             android:background="@mipmap/ic_launcher"/>
         <VideoView
             android:id="@+id/video_detail_vv"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="fitXY"/>
-    </FrameLayout>
+    </RelativeLayout>
 
 
     <android.support.design.widget.TabLayout

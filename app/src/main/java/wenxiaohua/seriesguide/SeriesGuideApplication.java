@@ -21,8 +21,10 @@ public class SeriesGuideApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setupDatabase();
+
 //        setUmengShareAppKey();
     }
+
 
 
 

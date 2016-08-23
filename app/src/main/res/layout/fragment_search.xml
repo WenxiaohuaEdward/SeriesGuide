@@ -6,13 +6,13 @@
     <wenxiaohua.seriesguide.view.views.SearchEditText
         android:id="@+id/fragment_search_input_edittext"
         style="@style/editTextStyle"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
     <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_gravity="center"
         android:id="@+id/fragment_search_elv"
         android:divider="@null"/>

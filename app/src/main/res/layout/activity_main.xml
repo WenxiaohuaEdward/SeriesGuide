@@ -19,16 +19,26 @@
         android:layout_height="wrap_content">
 
     </wenxiaohua.seriesguide.view.views.NoScrollViewPager>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_dddddd"
+        android:layout_gravity="bottom"
+
+        />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
+
     <RadioGroup
         android:id="@+id/main_radiogroup"
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:background="@color/color_e6e6e6"
         android:layout_height="?attr/actionBarSize"
         android:weightSum="3">
+
         <RadioButton
             android:id="@+id/main_like_radiobutton"
             android:text="@string/app_like"
@@ -61,5 +71,6 @@
             android:layout_weight="1"/>
 
     </RadioGroup>
+
     </FrameLayout>
 </LinearLayout>

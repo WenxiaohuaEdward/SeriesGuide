@@ -3,4 +3,25 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="video_play_heigh">220.0dip</dimen>
+
+    <dimen name="textsize_huge">18dip</dimen>
+    <dimen name="textsize_big">16dip</dimen>
+    <dimen name="textsize_standard">14dip</dimen>
+    <dimen name="textsize_small">12dip</dimen>
+
+    <dimen name="imageview_discover_width">60dip</dimen>
+    <dimen name="imageview_discover_height">80dip</dimen>
+
+    <dimen name="imageview_like_width">60dip</dimen>
+    <dimen name="imageview_like_height">60dip</dimen>
+
+    <dimen name="imageview_avatar_width">30dip</dimen>
+    <dimen name="imageview_avatar_height">30dip</dimen>
+
+    <dimen name="list_height">100dip</dimen>
+
+    <dimen name="marginleft">10dip</dimen>
+    <dimen name="marginright">10dip</dimen>
+    <dimen name="margintop">5dip</dimen>
+    <dimen name="marginbottom">5dip</dimen>
 </resources>
