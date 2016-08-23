@@ -4,6 +4,15 @@ android {
     compileSdkVersion 22
     buildToolsVersion "23.0.3"
 
+    signingConfigs {
+        releaseConfig {
+            storeFile file("../seriesguide.jks")
+            storePassword "qq6853763"
+            keyAlias "seriesguide"
+            keyPassword "qq6853763"
+        }
+    }
+
     defaultConfig {
         applicationId "wenxiaohua.seriesguide"
         minSdkVersion 14
@@ -19,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
         }
     }
     sourceSets{
@@ -33,7 +43,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
 
 
 }
