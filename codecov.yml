@@ -1,5 +1,5 @@
 codecov:
-  branch: master
+  branch: dev
   bot: null
 
 coverage:
