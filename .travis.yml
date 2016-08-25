@@ -9,14 +9,20 @@ android:
     - build-tools-23.0.3
     - android-22
     - extra-android-support
-sudo: required
+sudo: false 
+deploy:      
+    tags: false     
+    provider: releases
+    api_key: 
+        secure: a2288c9a3c8c3968d7d0396fe57b15d89271311e
+    file: app/build/outputs/apk/seriesguide.apk
+branches:
+    master
 before_install:
     - chmod +x gradlew
+    - pip install --user codecov
 script:
     - chmod +x ./gradlew   
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-test:
-    post:
-        - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport;else gradle jacocoTestReport;fi
-        - bash <(curl -s https://codecov.io/bash) -t c429221f-dce8-4279-b113-d867fee6755a -WenxiaohuaEdward-c429221f-dce8-4279-b113-d867fee6755a
+    - codecov
