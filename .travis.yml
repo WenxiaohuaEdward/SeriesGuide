@@ -19,4 +19,4 @@ after_success:
 test:
     post:
         - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport;else gradle jacocoTestReport;fi
-        - bash <(curl -s https://codecov.io/bash) -t uuid-repo-token
+        - bash <(curl -s https://codecov.io/bash) -t c429221f-dce8-4279-b113-d867fee6755a -WenxiaohuaEdward-c429221f-dce8-4279-b113-d867fee6755a
