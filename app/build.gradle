@@ -90,6 +90,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "connectedDebugAndroidTest"
             }
         }
     }
+
 }
 
 
