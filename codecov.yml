@@ -1,6 +1,6 @@
 codecov:
   token: c429221f-dce8-4279-b113-d867fee6755a
-  branch: master 
+  branch: dev 
   bot: WenxiaohuaEdward
   ci:  
     - travis.ci
