@@ -24,7 +24,7 @@ before_install:
     - chmod +x gradlew
     - pip install --user codecov
 script:
-    - ./gradlew assembleRelease
+    - chmod +x gradlew
 after_success:
     - bash <(curl -s https://codecov.io/bash)
     - codecov
