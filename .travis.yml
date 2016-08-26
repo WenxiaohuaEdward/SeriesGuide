@@ -1,4 +1,5 @@
 language: android
+jdk: openjdk7
 env:
   matrix:
     - ANDROID_TARGET=android-22 
