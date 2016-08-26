@@ -13,7 +13,7 @@ android:
 sudo: false
 deploy:
     on:      
-        tags: true     
+        tags: false     
     provider: releases
     api_key: 
         secure: b6ad84d1846be59607a775d95004a99cf7a878e7
