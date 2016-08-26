@@ -12,10 +12,11 @@ android:
 sudo: false 
 deploy:      
     tags: false     
-    provider: releases
     api_key: 
         secure: a2288c9a3c8c3968d7d0396fe57b15d89271311e
     file: app/build/outputs/apk/seriesguide.apk
+branches:
+    master
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
