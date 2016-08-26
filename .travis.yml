@@ -12,19 +12,19 @@ android:
 sudo: false 
 deploy:
     on:      
-        tags: false     
+        tags: true     
     provider: releases
     api_key: 
         secure: b6ad84d1846be59607a775d95004a99cf7a878e7
     file: app/build/outputs/apk/seriesguide.apk
-    skip_cleanup: true     # 设置为true以跳过清理,不然apk文件就会被清理
+    skip_cleanup: true     
 branches:
     master
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
 script:
-    - chmod +x ./gradlew 
+    - ./gradlew assembleRelease
 after_success:
     - bash <(curl -s https://codecov.io/bash)
     - codecov
