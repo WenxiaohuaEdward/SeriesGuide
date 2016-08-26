@@ -10,11 +10,14 @@ android:
     - android-22
     - extra-android-support
 sudo: false 
-deploy:      
-    tags: false     
+deploy:
+    on:      
+        tags: false     
+    provider: releases
     api_key: 
-        secure: a2288c9a3c8c3968d7d0396fe57b15d89271311e
+        secure: b6ad84d1846be59607a775d95004a99cf7a878e7
     file: app/build/outputs/apk/seriesguide.apk
+    skip_cleanup: true     # 设置为true以跳过清理,不然apk文件就会被清理
 branches:
     master
 before_install:
