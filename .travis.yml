@@ -10,7 +10,7 @@ android:
     - build-tools-23.0.3
     - android-22
     - extra-android-support
-sudo: false 
+sudo: false
 deploy:
     on:      
         tags: true     
