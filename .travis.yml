@@ -18,7 +18,7 @@ deploy:
     api_key: 
         secure: b6ad84d1846be59607a775d95004a99cf7a878e7
     file: app/build/outputs/apk/seriesguide.apk
-    skip_cleanup: true     
+    skip_cleanup: true 
 branches:
     master
 before_install:
