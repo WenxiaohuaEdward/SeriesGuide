@@ -14,7 +14,6 @@ sudo: false
 deploy:
     on:
         tags:true
-        all_branches:true
     provider: releases
     api_key: 
         secure: 0c3443ecc90315490a50c07eccf76d9318788054
