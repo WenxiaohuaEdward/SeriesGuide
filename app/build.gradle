@@ -126,8 +126,7 @@ dependencies {
     compile files('libs/Baidu_MobAds_SDK.jar')
     compile files('libs/cyberplayer-sdk.jar')
     compile project(':greendaogenerator')
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'org.robolectric:shadows-support-v4:3.0'
+    
     //    androidTestCompile 'com.android.support.test:runner:0.2'
     //    androidTestCompile 'com.android.support.test:rules:0.2'
     //    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.1'
