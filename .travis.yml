@@ -13,7 +13,9 @@ android:
 sudo: false 
 deploy:
     on:
-        tags:true
+        repo: Gameeso/openkit-android
+        tags: true
+        all_branches: true
     provider: releases
     api_key: 
         secure: 0c3443ecc90315490a50c07eccf76d9318788054
@@ -22,8 +24,13 @@ deploy:
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
+branches:
+  only:
+  - dev
+  - master
 script:
     - chmod +x gradlew 
 after_success:
+    if [ \"$RUN_COVERAGE\" == \"yes\" ]; then coverage combine; codecov; fi
     - bash <(curl -s https://codecov.io/bash)
     - codecov
