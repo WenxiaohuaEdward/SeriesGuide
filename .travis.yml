@@ -24,10 +24,7 @@ deploy:
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
-branches:
-  only:
-    - dev
-    - master
+
 script:
     - chmod +x gradlew 
 after_success:
