@@ -1,4 +1,5 @@
 language: android
+jdk: openjdk7
 env:
   matrix:
     - ANDROID_TARGET=android-22 
@@ -9,20 +10,21 @@ android:
     - build-tools-23.0.3
     - android-22
     - extra-android-support
-sudo: false 
-deploy:      
-    tags: false     
+sudo: required
+deploy:
+    on:      
+        tags: true     
     provider: releases
     api_key: 
-        secure: a2288c9a3c8c3968d7d0396fe57b15d89271311e
+        secure: b6ad84d1846be59607a775d95004a99cf7a878e7
     file: app/build/outputs/apk/seriesguide.apk
+    skip_cleanup: true 
 branches:
     master
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
 script:
-    - chmod +x ./gradlew
+    - chmod +x gradlew 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-    - codecov
