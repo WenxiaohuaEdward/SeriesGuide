@@ -21,9 +21,9 @@ deploy:
     file: app/build/outputs/apk/seriesguide.apk
     skip_cleanup: true 
 before_install:
-    - pip install --user codecov
+    - chmod +x gradlew
 script:
     - chmod +x gradlew
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -s https://codecov.io/bash)
    
