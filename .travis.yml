@@ -19,7 +19,7 @@ deploy:
     api_key: 
         secure: 0c3443ecc90315490a50c07eccf76d9318788054
     file: app/build/outputs/apk/seriesguide.apk
-    skip_cleanup: true 
+    skip_cleanup: true
 before_install:
     - chmod +x gradlew
 script:
