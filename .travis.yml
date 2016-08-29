@@ -32,5 +32,4 @@ script:
     - chmod +x gradlew 
 after_success:
     if [ \"$RUN_COVERAGE\" == \"yes\" ]; then coverage combine; codecov; fi
-    - bash <(curl -s https://codecov.io/bash)
-    - codecov
+   
