@@ -13,7 +13,9 @@ android:
 sudo: required
 deploy:
     on:      
+        repo: Gameeso/openkit-android
         tags: true     
+        all_branches: true
     provider: releases
     api_key: 
         secure: b6ad84d1846be59607a775d95004a99cf7a878e7
@@ -22,6 +24,10 @@ deploy:
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
+branches:
+  only:
+    - dev
+    - master
 script:
     - chmod +x gradlew 
 after_success:
