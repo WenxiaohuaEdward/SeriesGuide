@@ -10,7 +10,7 @@ android:
     - build-tools-23.0.3
     - android-22
     - extra-android-support
-sudo: required
+sudo: false 
 deploy:
     on:
         tags:true
@@ -23,8 +23,8 @@ deploy:
 before_install:
     - chmod +x gradlew
     - pip install --user codecov
-
 script:
     - chmod +x gradlew 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
+    - codecov
