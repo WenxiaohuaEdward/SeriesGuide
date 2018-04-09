@@ -20,6 +20,7 @@ public class SeriesGuideApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         setupDatabase();
 
 //        setUmengShareAppKey();
